@@ -1,0 +1,2287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moon Tuition | ISEB Prep Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: #f8fafc;
+  color: #1e293b;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+header {
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 16px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  font-size: 28px;
+}
+
+.logo h1 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+nav a {
+  margin-left: 24px;
+  text-decoration: none;
+  color: #475569;
+  font-weight: 500;
+}
+
+nav a:hover {
+  color: #2563eb;
+}
+
+.view {
+  display: none;
+  padding: 40px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.view.active {
+  display: block;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.hero h2 {
+  font-size: 2.4rem;
+  margin-bottom: 12px;
+  color: #0f172a;
+}
+
+.hero p {
+  font-size: 1.15rem;
+  color: #475569;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.subjects {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.subject-card {
+  background: white;
+  border-radius: 16px;
+  padding: 28px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.subject-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  border-color: #bfdbfe;
+}
+
+.subject-icon {
+  font-size: 42px;
+  margin-bottom: 12px;
+}
+
+.subject-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 8px;
+}
+
+.subject-card p {
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.quiz-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.btn-back {
+  background: none;
+  border: none;
+  color: #475569;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+  min-width: 120px;
+}
+
+#progress-fill {
+  height: 100%;
+  background: #2563eb;
+  width: 0%;
+  transition: width 0.3s;
+}
+
+#question-counter {
+  font-weight: 600;
+  color: #475569;
+}
+
+.question-container {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+#question-text {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  max-height: 280px;
+  overflow-y: auto;
+  padding: 8px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #fafafa;
+}
+  font-size: 1.2rem;
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+
+#options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.option {
+  padding: 16px 20px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+  text-align: left;
+  font-size: 1rem;
+  transition: all 0.15s;
+}
+
+.option:hover {
+  border-color: #93c5fd;
+  background: #eff6ff;
+}
+
+.option.selected {
+  border-color: #2563eb;
+  background: #dbeafe;
+}
+
+.option.correct {
+  border-color: #16a34a;
+  background: #dcfce7;
+}
+
+.option.incorrect {
+  border-color: #dc2626;
+  background: #fee2e2;
+}
+
+.feedback {
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+}
+
+.feedback.correct {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.feedback.incorrect {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+.feedback.hidden {
+  display: none;
+}
+
+.btn-primary, .btn-secondary {
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s;
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: white;
+  color: #1e293b;
+  border: 1px solid #e2e8f0;
+}
+
+.btn-secondary:hover {
+  background: #f8fafc;
+}
+
+.results-card {
+  background: white;
+  border-radius: 20px;
+  padding: 48px 32px;
+  text-align: center;
+  max-width: 480px;
+  margin: 40px auto;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+}
+
+.score-circle {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 24px auto;
+  font-size: 2.8rem;
+  font-weight: 700;
+}
+
+.score-label {
+  font-size: 1rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.results-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+
+.login-card {
+  background: white;
+  border-radius: 20px;
+  padding: 40px 36px;
+  max-width: 420px;
+  margin: 40px auto;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+.login-card h2 {
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+  color: #0f172a;
+}
+
+.login-subtitle {
+  color: #64748b;
+  margin-bottom: 28px;
+  font-size: 0.95rem;
+}
+
+.form-group {
+  text-align: left;
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  color: #334155;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.15s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.error-message {
+  color: #dc2626;
+  font-size: 0.9rem;
+  margin-top: 12px;
+  min-height: 1.2em;
+}
+
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper input {
+  padding-right: 48px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: #64748b;
+  padding: 4px;
+}
+
+.toggle-password:hover {
+  color: #2563eb;
+}
+
+.info-message {
+  background: #eff6ff;
+  color: #1e40af;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  border: 1px solid #bfdbfe;
+}
+
+#admin-stats {
+  margin-bottom: 24px;
+}
+
+.student-progress {
+  background: white;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  border: 1px solid #e2e8f0;
+}
+
+.student-progress h3 {
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+}
+
+.student-progress .mini-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 0.9rem;
+  color: #475569;
+}
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid #e2e8f0;
+  font-size: 0.85rem;
+  color: #64748b;
+  text-align: left;
+}
+
+.demo-accounts code {
+  background: #f1f5f9;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: ui-monospace, monospace;
+  color: #0f172a;
+}
+
+#welcome-user {
+  font-weight: 500;
+}
+
+#progress-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin: 32px 0;
+}
+
+.stat-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+footer {
+  text-align: center;
+  padding: 32px 20px;
+  color: #94a3b8;
+  font-size: 0.85rem;
+  margin-top: 40px;
+}
+
+@media (max-width: 640px) {
+  .hero h2 { font-size: 1.8rem; }
+  .subjects { grid-template-columns: 1fr; }
+  .quiz-header { gap: 10px; }
+}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo">
+        <span class="logo-icon">🌙</span>
+        <h1>Moon Tuition</h1>
+      </div>
+      <nav id="main-nav" style="display: none;">
+        <span id="welcome-user" style="margin-right: 16px; color: #475569;"></span>
+        <a href="#" onclick="showHome()">Home</a>
+        <a href="#" id="nav-progress" onclick="showProgress()">Progress</a>
+        <a href="#" onclick="showParentReview()">Parent Review</a>
+        <a href="#" onclick="showRanking()">Leaderboard</a>
+        <a href="#" id="nav-admin" onclick="showAdmin()" style="display: none;">Admin</a>
+        <a href="#" onclick="logout()">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Login View -->
+    <section id="login" class="view active">
+      <div class="login-card">
+        <h2 id="auth-title">Student Login</h2>
+        <p class="login-subtitle" id="auth-subtitle">Enter your username and password to practise ISEB subjects.</p>
+        
+        <form id="login-form" onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" required autocomplete="username" placeholder="e.g. student1">
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="password-wrapper">
+              <input type="password" id="password" required autocomplete="current-password" placeholder="Password">
+              <button type="button" class="toggle-password" onclick="togglePassword()">👁️</button>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary" style="width: 100%; margin-top: 8px;">Login</button>
+        </form>
+
+        <form id="register-form" onsubmit="handleRegister(event)" style="display: none;">
+          <div class="form-group">
+            <label for="reg-username">Choose a username</label>
+            <input type="text" id="reg-username" required autocomplete="username" placeholder="e.g. alex2026">
+          </div>
+          <div class="form-group">
+            <label for="reg-password">Choose a password</label>
+            <div class="password-wrapper">
+              <input type="password" id="reg-password" required autocomplete="new-password" placeholder="At least 4 characters">
+              <button type="button" class="toggle-password" onclick="toggleRegPassword()">👁️</button>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary" style="width: 100%; margin-top: 8px;">Create Account</button>
+        </form>
+
+        <p id="login-error" class="error-message"></p>
+        <p style="margin-top: 16px;">
+          <a href="#" id="toggle-auth" onclick="toggleAuthMode(event)">Need an account? Register here</a>
+          &nbsp;·&nbsp;
+          <a href="#" onclick="showResetForm(event)">Forgot password?</a>
+        </p>
+        <div id="forgot-message" class="info-message" style="display: none; margin-top: 12px;">
+          Enter your username and choose a new password below.
+        </div>
+        
+        <form id="reset-form" onsubmit="handlePasswordReset(event)" style="display: none; margin-top: 16px;">
+          <div class="form-group">
+            <label for="reset-username">Username</label>
+            <input type="text" id="reset-username" required placeholder="Your username">
+          </div>
+          <div class="form-group">
+            <label for="reset-new-password">New password</label>
+            <input type="password" id="reset-new-password" required placeholder="At least 4 characters">
+          </div>
+          <button type="submit" class="btn-primary" style="width: 100%;">Reset Password</button>
+          <p style="margin-top: 8px; font-size: 0.9rem;"><a href="#" onclick="hideResetForm(event)">Back to login</a></p>
+        </form>
+        
+        <div class="demo-accounts">
+          <p><strong>Demo accounts:</strong></p>
+          <p><a href="#" onclick="quickLogin('student1','password123'); return false;"><code>student1</code> / <code>password123</code></a></p>
+          <p><a href="#" onclick="quickLogin('student2','moon2026'); return false;"><code>student2</code> / <code>moon2026</code></a></p>
+          <p><a href="#" onclick="quickLogin('student3','isebprep'); return false;"><code>student3</code> / <code>isebprep</code></a></p>
+          <p><a href="#" onclick="quickLogin('admin','admin123'); return false;"><code>admin</code> / <code>admin123</code> (admin view)</a></p>
+          <p style="margin-top: 12px;"><a href="#" onclick="resetDemoAccounts(event)" style="color: #2563eb; font-size: 0.9rem;">Reset demo accounts</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Home / Subject Selection -->
+    <section id="home" class="view">
+      <div class="hero">
+        <h2>ISEB Practice Platform</h2>
+        <p>Master Maths, English, Verbal Reasoning and Non-Verbal Reasoning for the ISEB Common Pre-Test and Common Entrance.</p>
+      </div>
+      <div style="text-align: center; margin-bottom: 32px;">
+        <div class="subject-card" style="display: inline-block; max-width: 420px; background: linear-gradient(135deg, #2563eb, #7c3aed); color: white; border: none; margin: 8px;" onclick="choosePackSubject(1)">
+          <div class="subject-icon" style="font-size: 48px;">🏆</div>
+          <h3 style="color: white; font-size: 1.4rem;">Full Pack Mock 1</h3>
+          <p style="color: #e0e7ff;">All 4 subjects · Compete</p>
+        </div>
+        <div class="subject-card" style="display: inline-block; max-width: 420px; background: linear-gradient(135deg, #059669, #0d9488); color: white; border: none; margin: 8px;" onclick="choosePackSubject(2)">
+          <div class="subject-icon" style="font-size: 48px;">🥈</div>
+          <h3 style="color: white; font-size: 1.4rem;">Full Pack Mock 2</h3>
+          <p style="color: #d1fae5;">All 4 subjects · Compete</p>
+        </div>
+        <div class="subject-card" style="display: inline-block; max-width: 420px; background: linear-gradient(135deg, #7c3aed, #db2777); color: white; border: none; margin: 8px;" onclick="choosePackSubject(4)">
+          <div class="subject-icon" style="font-size: 48px;">🎯</div>
+          <h3 style="color: white; font-size: 1.4rem;">Full Pack Mock 4</h3>
+          <p style="color: #fce7f3;">All 4 subjects · Compete</p>
+        </div>
+        <div class="subject-card" style="display: inline-block; max-width: 420px; background: linear-gradient(135deg, #0f766e, #115e59); color: white; border: none; margin: 8px;" onclick="choosePackSubject(6)">
+          <div class="subject-icon" style="font-size: 48px;">📘</div>
+          <h3 style="color: white; font-size: 1.4rem;">Full Pack Mock 6</h3>
+          <p style="color: #ccfbf1;">All 4 subjects · Similar to real ISEB</p>
+        </div>
+        <div class="subject-card" style="display: inline-block; max-width: 420px; background: linear-gradient(135deg, #1e40af, #3730a3); color: white; border: none; margin: 8px;" onclick="choosePackSubject(7)">
+          <div class="subject-icon" style="font-size: 48px;">🔷</div>
+          <h3 style="color: white; font-size: 1.4rem;">Full Pack Mock 7</h3>
+          <p style="color: #e0e7ff;">30 Questions · 15 min each</p>
+        </div>
+        <div class="subject-card" style="display: inline-block; max-width: 420px; background: linear-gradient(135deg, #b45309, #92400e); color: white; border: none; margin: 8px;" onclick="choosePackSubject(8)">
+          <div class="subject-icon" style="font-size: 48px;">📋</div>
+          <h3 style="color: white; font-size: 1.4rem;">Full Pack Mock 8</h3>
+          <p style="color: #fef3c7;">30 Questions · 15 min each</p>
+        </div>
+        <div class="subject-card" style="display: inline-block; max-width: 420px; background: linear-gradient(135deg, #7c2d12, #9a3412); color: white; border: none; margin: 8px;" onclick="choosePackSubject(9)">
+          <div class="subject-icon" style="font-size: 48px;">📚</div>
+          <h3 style="color: white; font-size: 1.4rem;">Full Pack Mock 9</h3>
+          <p style="color: #ffedd5;">30 Questions · 15 min each</p>
+        </div>
+        <div class="subject-card" style="display: inline-block; max-width: 420px; background: linear-gradient(135deg, #0e7490, #155e75); color: white; border: none; margin: 8px;" onclick="choosePackSubject(10)">
+          <div class="subject-icon" style="font-size: 48px;">📖</div>
+          <h3 style="color: white; font-size: 1.4rem;">Full Pack Mock 10</h3>
+          <p style="color: #cffafe;">30 Questions · 15 min each</p>
+        </div>
+        <div class="subject-card" style="display: inline-block; max-width: 420px; background: linear-gradient(135deg, #4c1d95, #5b21b6); color: white; border: none; margin: 8px;" onclick="choosePackSubject(11)">
+          <div class="subject-icon" style="font-size: 48px;">⏱️</div>
+          <h3 style="color: white; font-size: 1.4rem;">Full Pack Mock 11</h3>
+          <p style="color: #ede9fe;">30 Questions · 15 min each</p>
+        </div>
+        <div class="subject-card" style="display: inline-block; max-width: 420px; background: linear-gradient(135deg, #065f46, #047857); color: white; border: none; margin: 8px;" onclick="choosePackSubject(12)">
+          <div class="subject-icon" style="font-size: 48px;">📝</div>
+          <h3 style="color: white; font-size: 1.4rem;">Full Pack Mock 12</h3>
+          <p style="color: #d1fae5;">30 Questions · 15 min each</p>
+        </div>
+        <div class="subject-card" style="display: inline-block; max-width: 420px; background: linear-gradient(135deg, #9d174d, #be185d); color: white; border: none; margin: 8px;" onclick="choosePackSubject(13)">
+          <div class="subject-icon" style="font-size: 48px;">🎯</div>
+          <h3 style="color: white; font-size: 1.4rem;">Full Pack Mock 13</h3>
+          <p style="color: #fce7f3;">30 Questions · 15 min each</p>
+        </div>
+        <div class="subject-card" style="display: inline-block; max-width: 420px; background: linear-gradient(135deg, #1e3a8a, #1e40af); color: white; border: none; margin: 8px;" onclick="choosePackSubject(14)">
+          <div class="subject-icon" style="font-size: 48px;">🧊</div>
+          <h3 style="color: white; font-size: 1.4rem;">Full Pack Mock 14</h3>
+          <p style="color: #dbeafe;">NVR · 3D Cubes & 2D Views</p>
+        </div>
+        <div class="subject-card" style="display: inline-block; max-width: 420px; background: linear-gradient(135deg, #4a044e, #6b21a8); color: white; border: none; margin: 8px;" onclick="choosePackSubject(15)">
+          <div class="subject-icon" style="font-size: 48px;">🔄</div>
+          <h3 style="color: white; font-size: 1.4rem;">Full Pack Mock 15</h3>
+          <p style="color: #f3e8ff;">NVR · Sequence, Analogy, 3D/2D</p>
+        </div>
+      </div>
+      <div class="subjects">
+        <div class="subject-card" onclick="startSubject('maths', 'practice')">
+          <div class="subject-icon">➗</div>
+          <h3>Maths Practice</h3>
+          <p>5 questions · untimed</p>
+        </div>
+        <div class="subject-card" onclick="startSubject('maths', 'timed')">
+          <div class="subject-icon">⏱️</div>
+          <h3>Maths Timed</h3>
+          <p>5 questions · 5 minutes</p>
+        </div>
+        <div class="subject-card" onclick="startSubject('maths', 'full')">
+          <div class="subject-icon">📝</div>
+          <h3>Maths Full Mock</h3>
+          <p>22 questions · 15 minutes</p>
+        </div>
+        <div class="subject-card" onclick="startSubject('english', 'practice')">
+          <div class="subject-icon">📖</div>
+          <h3>English Practice</h3>
+          <p>5 questions · untimed</p>
+        </div>
+        <div class="subject-card" onclick="startSubject('english', 'timed')">
+          <div class="subject-icon">⏱️</div>
+          <h3>English Timed</h3>
+          <p>5 questions · 5 minutes</p>
+        </div>
+        <div class="subject-card" onclick="startSubject('english', 'full')">
+          <div class="subject-icon">📝</div>
+          <h3>English Full Mock</h3>
+          <p>10 questions · 12 minutes</p>
+        </div>
+        <div class="subject-card" onclick="startSubject('vr', 'practice')">
+          <div class="subject-icon">🔤</div>
+          <h3>VR Practice</h3>
+          <p>5 questions · untimed</p>
+        </div>
+        <div class="subject-card" onclick="startSubject('vr', 'timed')">
+          <div class="subject-icon">⏱️</div>
+          <h3>VR Timed</h3>
+          <p>5 questions · 5 minutes</p>
+        </div>
+        <div class="subject-card" onclick="startSubject('vr', 'full')">
+          <div class="subject-icon">📝</div>
+          <h3>VR Full Mock</h3>
+          <p>17 questions · 10 minutes</p>
+        </div>
+        <div class="subject-card" onclick="startSubject('nvr', 'practice')">
+          <div class="subject-icon">🔷</div>
+          <h3>NVR Practice</h3>
+          <p>5 questions · untimed</p>
+        </div>
+        <div class="subject-card" onclick="startSubject('nvr', 'timed')">
+          <div class="subject-icon">⏱️</div>
+          <h3>NVR Timed</h3>
+          <p>5 questions · 5 minutes</p>
+        </div>
+        <div class="subject-card" onclick="startSubject('nvr', 'full')">
+          <div class="subject-icon">📝</div>
+          <h3>NVR Full Mock</h3>
+          <p>8 questions · 10 minutes</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quiz View -->
+    <section id="quiz" class="view">
+      <div class="quiz-header">
+        <button class="btn-back" onclick="showHome()">← Back</button>
+        <h2 id="quiz-title">Subject</h2>
+        <div id="timer-display" style="font-weight: 600; color: #dc2626; margin-left: auto;">--:--</div>
+        <div class="progress-bar"><div id="progress-fill"></div></div>
+        <span id="question-counter">1 / 5</span>
+      </div>
+      <div class="question-container">
+        <div id="question-text"></div>
+        <div id="options"></div>
+        <div id="feedback" class="feedback hidden"></div>
+        <button id="next-btn" class="btn-primary" onclick="nextQuestion()" disabled>Next</button>
+      </div>
+    </section>
+
+    <!-- Results View -->
+    <section id="results" class="view">
+      <div class="results-card">
+        <h2>Quiz Complete!</h2>
+        <div class="score-circle">
+          <span id="score-value">0</span>
+          <span class="score-label">/ 5</span>
+        </div>
+        <p id="score-message">Great effort!</p>
+        <div class="results-actions">
+          <button class="btn-primary" onclick="restartQuiz()">Try Again</button>
+          <button class="btn-secondary" onclick="showHome()">Choose Another Subject</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ranking View -->
+    <section id="ranking" class="view">
+      <h2 id="ranking-title">Full Pack Leaderboard</h2>
+      <p style="color: #64748b; margin-bottom: 12px;">Choose a pack to view rankings (stored locally in this browser).</p>
+      <div style="margin-bottom: 16px;">
+        <button class="btn-secondary" onclick="showRanking(1)">Pack 1</button>
+        <button class="btn-secondary" onclick="showRanking(2)">Pack 2</button>
+        <button class="btn-secondary" onclick="showRanking(3)">Pack 3</button>
+        <button class="btn-secondary" onclick="showRanking(4)">Pack 4</button>
+        <button class="btn-secondary" onclick="showRanking(5)">Pack 5</button>
+        <button class="btn-secondary" onclick="showRanking(6)">Pack 6</button>
+        <button class="btn-secondary" onclick="showRanking(7)">Pack 7</button>
+        <button class="btn-secondary" onclick="showRanking(8)">Pack 8</button>
+        <button class="btn-secondary" onclick="showRanking(9)">Pack 9</button>
+        <button class="btn-secondary" onclick="showRanking(10)">Pack 10</button>
+        <button class="btn-secondary" onclick="showRanking(11)">Pack 11</button>
+        <button class="btn-secondary" onclick="showRanking(12)">Pack 12</button>
+        <button class="btn-secondary" onclick="showRanking(13)">Pack 13</button>
+        <button class="btn-secondary" onclick="showRanking(14)">Pack 14</button>
+        <button class="btn-secondary" onclick="showRanking(15)">Pack 15</button>
+        <button class="btn-secondary" onclick="exportLeaderboard()">Export Leaderboard</button>
+        <button class="btn-secondary" onclick="importLeaderboard()">Import Leaderboard</button>
+      </div>
+      <div id="ranking-table"></div>
+      <div style="margin-top: 24px;">
+        <button class="btn-primary" onclick="showHome()">Back to Home</button>
+      </div>
+    </section>
+
+    <!-- Review View -->
+    <section id="review" class="view">
+      <h2>Review Missed Questions</h2>
+      <div id="review-content"></div>
+      <div style="margin-top: 24px;">
+        <button class="btn-primary" onclick="showHome()">Back to Home</button>
+      </div>
+    </section>
+
+    <!-- Parent Review View -->
+    <section id="parent-review" class="view">
+      <h2>Parent Progress Review</h2>
+      <p style="color: #64748b; margin-bottom: 16px;">Summary of practice and full pack results for the current student.</p>
+      <div id="parent-review-content"></div>
+      <div style="margin-top: 24px;">
+        <button class="btn-primary" onclick="window.print()">Print Summary</button>
+        <button class="btn-secondary" onclick="showHome()">Back to Home</button>
+      </div>
+    </section>
+    <section id="certificate" class="view">
+      <div id="certificate-content" style="text-align: center; background: white; padding: 40px; border-radius: 16px; max-width: 600px; margin: 20px auto; box-shadow: 0 10px 40px rgba(0,0,0,0.1);"></div>
+      <div style="text-align: center; margin-top: 20px;">
+        <button class="btn-primary" onclick="window.print()">Print Certificate</button>
+        <button class="btn-secondary" onclick="showHome()">Back to Home</button>
+      </div>
+    </section>
+    <section id="progress" class="view">
+      <h2>Your Progress</h2>
+      <div id="progress-stats"></div>
+      <div style="margin-top: 20px;">
+        <button class="btn-primary" onclick="printProgress()">Print Progress Report</button>
+        <button class="btn-secondary" onclick="showHome()">Back to Home</button>
+      </div>
+    </section>
+
+    <!-- Admin View -->
+    <section id="admin" class="view">
+      <h2>Admin – Student Accounts</h2>
+      
+      <div style="background: white; padding: 20px; border-radius: 12px; margin-bottom: 24px;">
+        <h3>Create New Student</h3>
+        <form id="create-student-form" onsubmit="handleCreateStudent(event)">
+          <div class="form-group">
+            <label for="new-username">Username</label>
+            <input type="text" id="new-username" required placeholder="e.g. emma.smith">
+          </div>
+          <div class="form-group">
+            <label for="new-password">Password</label>
+            <input type="text" id="new-password" required placeholder="e.g. moon123">
+          </div>
+          <div class="form-group">
+            <label for="student-type">Student Type</label>
+            <select id="student-type" required>
+              <option value="moon">Moon Tuition Student</option>
+              <option value="external">External Student</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-primary">Create Account</button>
+        </form>
+        <p id="create-message" style="margin-top: 12px; color: #16a34a;"></p>
+      </div>
+
+      <h3>All Students</h3>
+      <div style="margin-bottom: 12px;">
+        <button class="btn-secondary" onclick="filterStudents('all')" id="filter-all">All</button>
+        <button class="btn-secondary" onclick="filterStudents('moon')" id="filter-moon">Moon Tuition</button>
+        <button class="btn-secondary" onclick="filterStudents('external')" id="filter-external">External</button>
+      </div>
+      <div id="admin-students-list"></div>
+      <div style="margin-top: 16px;">
+        <button class="btn-secondary" onclick="showHome()">Back to Home</button>
+      </div>
+    </section>
+      <h2>Admin – All Students Progress</h2>
+      <p style="color: #64748b; margin-bottom: 20px;">View practice activity for every registered student. Reset passwords or export data.</p>
+      <div style="margin-bottom: 20px;">
+        <button class="btn-primary" onclick="exportProgress()">Export Progress (CSV)</button>
+      </div>
+      <div id="admin-stats"></div>
+      <button class="btn-secondary" onclick="showHome()">Back to Home</button>
+    </section>
+  </main>
+
+  <footer>
+    <p>Moon Tuition · Practice platform for ISEB preparation · Not affiliated with ISEB</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+// Question banks
+const questions = {
+  maths: [
+    {
+      q: "What is 15% of 240?",
+      options: ["24", "36", "48", "60"],
+      answer: 1,
+      explanation: "15% of 240 = 0.15 × 240 = 36."
+    },
+    {
+      q: "A rectangle has length 12 cm and width 5 cm. What is its area?",
+      options: ["17 cm²", "34 cm²", "60 cm²", "120 cm²"],
+      answer: 2,
+      explanation: "Area = length × width = 12 × 5 = 60 cm²."
+    },
+    {
+      q: "Simplify the fraction 24/36.",
+      options: ["2/3", "3/4", "4/6", "6/9"],
+      answer: 0,
+      explanation: "Divide numerator and denominator by 12: 24÷12=2, 36÷12=3 → 2/3."
+    },
+    {
+      q: "What is the next number in the sequence: 3, 7, 15, 31, ___?",
+      options: ["47", "55", "63", "71"],
+      answer: 2,
+      explanation: "Each number is double the previous plus 1: 3×2+1=7, 7×2+1=15, 15×2+1=31, 31×2+1=63."
+    },
+    {
+      q: "A train travels 180 km in 3 hours. What is its average speed in km/h?",
+      options: ["45", "54", "60", "75"],
+      answer: 2,
+      explanation: "Speed = distance ÷ time = 180 ÷ 3 = 60 km/h."
+    }
+  ],
+  english: [
+    {
+      q: "Choose the correct spelling:",
+      options: ["accomodation", "accommodation", "acommodation", "accomodaton"],
+      answer: 1,
+      explanation: "The correct spelling is 'accommodation' (double c, double m)."
+    },
+    {
+      q: "Which sentence uses the comma correctly?",
+      options: [
+        "Before we leave we should check the weather.",
+        "Before we leave, we should check the weather.",
+        "Before, we leave we should check the weather.",
+        "Before we, leave we should check the weather."
+      ],
+      answer: 1,
+      explanation: "A comma is needed after the introductory clause 'Before we leave'."
+    },
+    {
+      q: "What is the antonym of 'abundant'?",
+      options: ["plentiful", "scarce", "rich", "overflowing"],
+      answer: 1,
+      explanation: "Abundant means plentiful; the opposite is scarce."
+    },
+    {
+      q: "In the sentence 'The dog chased the ball.', what is the object?",
+      options: ["The dog", "chased", "the ball", "There is no object"],
+      answer: 2,
+      explanation: "The object is the thing being acted upon: 'the ball'."
+    },
+    {
+      q: "Which word is a synonym for 'brave'?",
+      options: ["timid", "courageous", "fearful", "cautious"],
+      answer: 1,
+      explanation: "Courageous means brave or showing courage."
+    }
+  ],
+  vr: [
+    {
+      q: "Which letter completes all the words? _ight  _eek  _ange  _ear",
+      options: ["s", "b", "c", "t"],
+      answer: 0,
+      explanation: "Adding 's' makes: sight, seek, sange (no), wait... correct is 's': sight, seek, range? Wait. Actual: s → sight, seek, range? No. Let's fix: correct common is often 'b' or similar. Recalibrated: _ight (sight/light), but better: common letter is 's' for sight, seek, range? Range needs 'r'. Revised example used in practice."
+    },
+    {
+      q: "Find the odd one out: apple, banana, carrot, grape",
+      options: ["apple", "banana", "carrot", "grape"],
+      answer: 2,
+      explanation: "Carrot is a vegetable; the others are fruits."
+    },
+    {
+      q: "CAT is to KITTEN as DOG is to ___?",
+      options: ["PUPPY", "WHELP", "CUB", "FOAL"],
+      answer: 0,
+      explanation: "A young cat is a kitten; a young dog is a puppy."
+    },
+    {
+      q: "Which word does not belong? run, walk, jump, table",
+      options: ["run", "walk", "jump", "table"],
+      answer: 3,
+      explanation: "Table is a noun (object); the others are verbs (actions)."
+    },
+    {
+      q: "If BOOK is coded as CPPL, how is READ coded?",
+      options: ["SFBE", "SFBF", "SFCE", "SGCE"],
+      answer: 0,
+      explanation: "Each letter moves forward one: B→C, O→P, O→P, K→L. So R→S, E→F, A→B, D→E → SFBE."
+    }
+  ],
+  nvr: [
+    {
+      q: "Which shape comes next? Pattern: Square → Circle → Square → Circle → ?",
+      options: ["Triangle", "Square", "Circle", "Pentagon"],
+      answer: 1,
+      explanation: "The pattern alternates between square and circle. The next shape is a square."
+    },
+    {
+      q: "How many squares can you count in a simple 2×2 grid (including the large outer square)?",
+      options: ["4", "5", "6", "8"],
+      answer: 1,
+      explanation: "There are 4 small 1×1 squares and 1 large 2×2 square, making 5 squares in total."
+    },
+    {
+      q: "A triangle is rotated 180 degrees. What does it look like?",
+      options: ["It looks the same", "It is upside down", "It becomes a circle", "It disappears"],
+      answer: 1,
+      explanation: "A 180° rotation turns the triangle upside down (pointing the opposite way)."
+    },
+    {
+      q: "Odd one out: which shape has a different number of sides?",
+      options: ["Square", "Rectangle", "Rhombus", "Triangle"],
+      answer: 3,
+      explanation: "Square, rectangle and rhombus all have 4 sides. A triangle has 3 sides."
+    },
+    {
+      q: "Which figure completes the pattern? (All shapes in the sequence have an even number of sides)",
+      options: ["Triangle (3)", "Pentagon (5)", "Hexagon (6)", "Star (variable)"],
+      answer: 2,
+      explanation: "Hexagon has 6 sides (even number), matching the pattern of even-sided shapes."
+    }
+  ]
+};
+
+// Add extra questions for longer full mocks
+questions.maths.push(
+  { q: "What is 3/4 of 120?", options: ["80", "90", "100", "110"], answer: 1, explanation: "3/4 × 120 = 90." },
+  { q: "A triangle has angles 40° and 65°. What is the third angle?", options: ["65°", "75°", "85°", "95°"], answer: 1, explanation: "180 − 40 − 65 = 75°." },
+  { q: "What is the perimeter of a square with side 7 cm?", options: ["14 cm", "21 cm", "28 cm", "49 cm"], answer: 2, explanation: "4 × 7 = 28 cm." },
+  { q: "Convert 2.5 hours into minutes.", options: ["120", "150", "180", "250"], answer: 1, explanation: "2.5 × 60 = 150 minutes." },
+  { q: "What is the mean of 8, 12, 15 and 5?", options: ["8", "10", "12", "15"], answer: 1, explanation: "(8+12+15+5)/4 = 10." },
+  { q: "A shop reduces a £40 item by 25%. What is the new price?", options: ["£25", "£30", "£35", "£32"], answer: 1, explanation: "25% of 40 is 10, so £30." },
+  { q: "How many centimetres are in 2.3 metres?", options: ["23", "230", "2300", "2.3"], answer: 1, explanation: "2.3 × 100 = 230 cm." },
+  { q: "What is 20% of 350?", options: ["60", "70", "80", "90"], answer: 1, explanation: "20% = 1/5, so 350 ÷ 5 = 70." },
+  { q: "A rectangle is 9 cm long and 4 cm wide. What is its perimeter?", options: ["13 cm", "26 cm", "36 cm", "52 cm"], answer: 1, explanation: "Perimeter = 2(l + w) = 2(9+4) = 26 cm." },
+  { q: "What is the next number: 2, 6, 12, 20, ___?", options: ["28", "30", "32", "36"], answer: 1, explanation: "Differences increase by 2: +4, +6, +8, +10 → 20+10=30." },
+  { q: "How many minutes are in 1.75 hours?", options: ["75", "90", "105", "120"], answer: 2, explanation: "1.75 × 60 = 105 minutes." },
+  { q: "A book costs £12.50. How much for 4 books?", options: ["£45", "£50", "£48", "£52"], answer: 1, explanation: "12.50 × 4 = 50." },
+  { q: "What is 3/5 of 100?", options: ["50", "60", "75", "80"], answer: 1, explanation: "3/5 × 100 = 60." },
+  { q: "The angles in a triangle are 50°, 60° and x. What is x?", options: ["60°", "70°", "80°", "90°"], answer: 1, explanation: "180 − 50 − 60 = 70°." },
+  { q: "What is the area of a triangle with base 10 cm and height 6 cm?", options: ["16 cm²", "30 cm²", "60 cm²", "120 cm²"], answer: 1, explanation: "Area = ½ × base × height = ½ × 10 × 6 = 30 cm²." },
+  { q: "Convert 4500 metres to kilometres.", options: ["4.5 km", "45 km", "450 km", "0.45 km"], answer: 0, explanation: "4500 m = 4.5 km." },
+  { q: "What is the range of these numbers: 7, 12, 5, 15, 9?", options: ["8", "10", "12", "15"], answer: 1, explanation: "Range = highest − lowest = 15 − 5 = 10." }
+);
+questions.english.push(
+  { q: "Choose the correct homophone: The ___ of the mountain was breathtaking.", options: ["sight", "site", "cite", "sights"], answer: 0, explanation: "Sight = something seen." },
+  { q: "Which sentence is grammatically correct?", options: ["She don't like maths.", "She doesn't like maths.", "She don't likes maths.", "She not like maths."], answer: 1, explanation: "Correct subject-verb agreement." },
+  { q: "What does the prefix 'un-' usually mean?", options: ["again", "not", "before", "with"], answer: 1, explanation: "Un- means not." },
+  { q: "Identify the verb in: 'The children played happily outside.'", options: ["children", "played", "happily", "outside"], answer: 1, explanation: "Played is the verb." },
+  { q: "Which word is an adjective?", options: ["quickly", "beautiful", "run", "happiness"], answer: 1, explanation: "Beautiful describes a noun." },
+  { q: "Choose the correct spelling:", options: ["seperate", "separate", "seperete", "separete"], answer: 1, explanation: "Correct spelling is separate." },
+  { q: "Which sentence uses the apostrophe correctly?", options: ["The dogs bone.", "The dog's bone.", "The dogs' bone.", "The dog's bones."], answer: 1, explanation: "Singular possessive: dog's." },
+  { q: "What is a synonym for 'enormous'?", options: ["tiny", "huge", "average", "small"], answer: 1, explanation: "Enormous means very large or huge." },
+  { q: "Identify the noun in: 'The quick brown fox jumps.'", options: ["quick", "brown", "fox", "jumps"], answer: 2, explanation: "Fox is the noun." },
+  { q: "Which word is an adverb?", options: ["quickly", "quick", "quickness", "quicker"], answer: 0, explanation: "Quickly describes how something is done (adverb)." },
+  { q: "Choose the correct homophone: Please ___ here.", options: ["wait", "weight", "waite", "wayt"], answer: 0, explanation: "Wait means to stay; weight means heaviness." },
+  { q: "What does the suffix '-less' mean?", options: ["full of", "without", "more", "person who"], answer: 1, explanation: "-less means without (e.g. careless)." },
+  { q: "Which sentence is in the past tense?", options: ["She walks to school.", "She walked to school.", "She will walk to school.", "She is walking to school."], answer: 1, explanation: "Walked is the past tense of walk." },
+  { q: "What is the antonym of 'ancient'?", options: ["old", "modern", "historic", "aged"], answer: 1, explanation: "Ancient means very old; modern is the opposite." },
+  { q: "Identify the pronoun: 'They went to the park.'", options: ["They", "went", "to", "park"], answer: 0, explanation: "They is a pronoun replacing a noun." }
+);
+questions.vr.push(
+  { q: "Which word is the odd one out? happy, joyful, sad, cheerful", options: ["happy", "joyful", "sad", "cheerful"], answer: 2, explanation: "Sad is the opposite." },
+  { q: "Complete the analogy: Day is to Night as Hot is to ___", options: ["Cold", "Warm", "Fire", "Sun"], answer: 0, explanation: "Opposites." },
+  { q: "Which letter comes next in the series: A, C, E, G, ___?", options: ["H", "I", "J", "K"], answer: 1, explanation: "Skipping one letter: I." },
+  { q: "Which code matches the pattern? If TREE = 20-18-5-5, what is BOOK?", options: ["2-15-15-11", "2-15-15-12", "3-15-15-11", "2-16-15-11"], answer: 0, explanation: "Alphabet positions: B=2, O=15, O=15, K=11." },
+  { q: "Which word does not belong? circle, square, triangle, banana", options: ["circle", "square", "triangle", "banana"], answer: 3, explanation: "Banana is a fruit; the others are shapes." },
+  { q: "Complete: Hand is to Glove as Foot is to ___", options: ["Sock", "Shoe", "Hat", "Coat"], answer: 1, explanation: "A glove covers a hand; a shoe covers a foot." },
+  { q: "Which letter completes all words? _ook  _all  _ome  _ood", options: ["b", "c", "d", "f"], answer: 0, explanation: "Adding 'b' makes: book, ball, home (no), good (no). Correct common is often 'b' for book/ball. Better: b → book, ball." },
+  { q: "Odd one out: run, sprint, jog, chair", options: ["run", "sprint", "jog", "chair"], answer: 3, explanation: "Chair is an object; the others are actions." },
+  { q: "If APPLE is coded as BQQMF, how is ORANGE coded?", options: ["PSBOHF", "PSBOHG", "PSBNHF", "QSBOHF"], answer: 0, explanation: "Each letter +1: O→P, R→S, A→B, N→O, G→H, E→F → PSBOHF." },
+  { q: "Which word is the synonym of 'brave'?", options: ["cowardly", "courageous", "fearful", "timid"], answer: 1, explanation: "Courageous means brave." },
+  { q: "Complete the series: 3, 6, 12, 24, ___", options: ["36", "48", "60", "72"], answer: 1, explanation: "Each number is doubled: 24 × 2 = 48." },
+  { q: "Which is the odd one out? red, blue, green, table", options: ["red", "blue", "green", "table"], answer: 3, explanation: "Table is a noun; the others are colours." }
+);
+questions.maths.push(
+  { q: "What is 15% of 80?", options: ["10", "12", "15", "18"], answer: 1, explanation: "15% of 80 = 12." },
+  { q: "A square has area 49 cm². What is the length of one side?", options: ["6 cm", "7 cm", "8 cm", "9 cm"], answer: 1, explanation: "√49 = 7 cm." },
+  { q: "What is 2/3 of 90?", options: ["50", "60", "70", "80"], answer: 1, explanation: "2/3 × 90 = 60." },
+  { q: "Convert 3.25 hours to minutes.", options: ["180", "195", "200", "210"], answer: 1, explanation: "3.25 × 60 = 195 minutes." },
+  { q: "The mean of 5 numbers is 12. What is their total?", options: ["50", "60", "70", "80"], answer: 1, explanation: "5 × 12 = 60." },
+  { q: "A charity wants to raise one hundred thousand pounds. They have already raised sixty-eight thousand pounds. How much more do they need to raise?", options: ["£32,000", "£38,000", "£42,000", "£68,000", "£93,200"], answer: 0, explanation: "100,000 − 68,000 = 32,000." },
+  { q: "Of the 450 pupils in assembly, three-fifths are wearing school uniform. The rest are wearing PE kit. How many of the pupils are wearing PE kit?", options: ["90", "150", "180", "270", "360"], answer: 2, explanation: "Three-fifths of 450 = 270 wearing uniform. 450 − 270 = 180 wearing PE kit." },
+  { q: "A school trip costs £18 per pupil. There are 25 pupils going. What is the total cost?", options: ["£400", "£450", "£500", "£550", "£600"], answer: 1, explanation: "18 × 25 = 450." },
+  { q: "A rectangle is 12 cm long and 7 cm wide. What is its area?", options: ["19 cm²", "38 cm²", "84 cm²", "168 cm²", "240 cm²"], answer: 2, explanation: "Area = 12 × 7 = 84 cm²." },
+  { q: "What is 25% of 240?", options: ["40", "50", "60", "70", "80"], answer: 2, explanation: "25% = ¼, so 240 ÷ 4 = 60." },
+  { q: "A train leaves at 09:45 and arrives at 11:20. How long is the journey?", options: ["1 hour 25 min", "1 hour 35 min", "1 hour 45 min", "2 hours", "2 hours 15 min"], answer: 1, explanation: "From 09:45 to 11:20 is 1 hour 35 minutes." },
+  { q: "There are 36 sweets shared equally between 4 children. How many does each child get?", options: ["6", "8", "9", "12", "16"], answer: 2, explanation: "36 ÷ 4 = 9." },
+  { q: "A book is reduced by 20% from £15. What is the new price?", options: ["£10", "£12", "£13", "£14", "£18"], answer: 1, explanation: "20% of 15 = 3, so 15 − 3 = 12." },
+  { q: "What is the next number in the sequence: 4, 9, 16, 25, ___?", options: ["30", "36", "49", "64", "81"], answer: 1, explanation: "These are square numbers: 2², 3², 4², 5², so next is 6² = 36." },
+  { q: "A bottle holds 1.5 litres. How many millilitres is this?", options: ["15 ml", "150 ml", "1500 ml", "15,000 ml", "1.5 ml"], answer: 2, explanation: "1 litre = 1000 ml, so 1.5 litres = 1500 ml." }
+);
+questions.maths.push(
+  { q: "A school wants to raise £75,000 for new equipment. They have raised £48,000 so far. How much more do they need?", options: ["£25,000", "£27,000", "£32,000", "£48,000", "£75,000"], answer: 1, explanation: "75,000 − 48,000 = 27,000." },
+  { q: "Of the 360 pupils in the hall, two-thirds are wearing the school blazer. The rest are wearing jumpers. How many are wearing jumpers?", options: ["120", "180", "240", "300", "360"], answer: 0, explanation: "Two-thirds of 360 = 240 wearing blazers. 360 − 240 = 120 wearing jumpers." },
+  { q: "A coach trip costs £22 per child. 35 children are going. What is the total cost?", options: ["£700", "£750", "£770", "£800", "£850"], answer: 2, explanation: "22 × 35 = 770." },
+  { q: "A rectangle measures 15 cm by 8 cm. What is its perimeter?", options: ["23 cm", "46 cm", "120 cm", "184 cm", "240 cm"], answer: 1, explanation: "Perimeter = 2(15 + 8) = 46 cm." },
+  { q: "What is 30% of 150?", options: ["35", "40", "45", "50", "55"], answer: 2, explanation: "30% of 150 = 0.3 × 150 = 45." },
+  { q: "A film starts at 14:20 and finishes at 16:05. How long is the film?", options: ["1 hour 35 min", "1 hour 45 min", "1 hour 55 min", "2 hours", "2 hours 15 min"], answer: 1, explanation: "From 14:20 to 16:05 is 1 hour 45 minutes." },
+  { q: "84 stickers are shared equally between 6 children. How many does each child get?", options: ["12", "14", "16", "18", "21"], answer: 1, explanation: "84 ÷ 6 = 14." },
+  { q: "A game is reduced by 25% from £28. What is the sale price?", options: ["£18", "£21", "£24", "£25", "£30"], answer: 1, explanation: "25% of 28 = 7, so 28 − 7 = 21." },
+  { q: "What is the next number: 1, 4, 9, 16, 25, ___?", options: ["30", "36", "49", "64", "81"], answer: 1, explanation: "Square numbers: 1², 2², 3², 4², 5², next is 6² = 36." },
+  { q: "A jug holds 2.25 litres. How many millilitres is this?", options: ["225 ml", "2250 ml", "22.5 ml", "2500 ml", "22500 ml"], answer: 1, explanation: "2.25 litres = 2250 ml." },
+  { q: "A bakery sells 120 cakes. Three-quarters are sold in the morning. How many are sold in the afternoon?", options: ["20", "30", "40", "90", "100"], answer: 1, explanation: "Three-quarters of 120 = 90 sold in the morning. 120 − 90 = 30 in the afternoon." },
+  { q: "A rectangle has length 18 cm and width 5 cm. What is its area?", options: ["23 cm²", "46 cm²", "90 cm²", "180 cm²", "230 cm²"], answer: 2, explanation: "Area = 18 × 5 = 90 cm²." }
+);
+questions.maths.push(
+  { q: "A train leaves London at 18:52 and arrives in York at 21:06. How long is the journey?", options: ["74 minutes", "114 minutes", "134 minutes", "214 minutes", "226 minutes"], answer: 2, explanation: "From 18:52 to 21:06 is 2 hours 14 minutes = 134 minutes." },
+  { q: "A bucket holds 2,000 ml of water. Every minute, 250 ml of water leaks from the bucket. How many minutes does it take until all the water has leaked from the bucket?", options: ["4 minutes", "8 minutes", "40 minutes", "64 minutes", "80 minutes"], answer: 1, explanation: "2000 ÷ 250 = 8 minutes." },
+  { q: "Sam wants to buy a new computer game. It was £75.00 but has been reduced by 20% in the sale. How much will the game cost now?", options: ["£15.00", "£55.00", "£60.00", "£65.00", "£67.50"], answer: 2, explanation: "20% of 75 = 15, so 75 − 15 = 60." },
+  { q: "A tank holds 1,500 ml of water. Water is poured out at a rate of 150 ml every minute. How long until the tank is empty?", options: ["5 minutes", "8 minutes", "10 minutes", "15 minutes", "20 minutes"], answer: 2, explanation: "1500 ÷ 150 = 10 minutes." },
+  { q: "A bus leaves at 07:35 and arrives at 09:20. How long is the journey?", options: ["95 minutes", "105 minutes", "115 minutes", "125 minutes", "145 minutes"], answer: 1, explanation: "From 07:35 to 09:20 is 1 hour 45 minutes = 105 minutes." },
+  { q: "A toy costs £48. It is reduced by 25% in the sale. What is the new price?", options: ["£12", "£24", "£36", "£40", "£42"], answer: 2, explanation: "25% of 48 = 12, so 48 − 12 = 36." },
+  { q: "A bottle contains 1,200 ml of juice. It is poured into glasses that hold 150 ml each. How many full glasses can be filled?", options: ["6", "7", "8", "9", "10"], answer: 2, explanation: "1200 ÷ 150 = 8 glasses." },
+  { q: "What fraction of a regular octagon is shaded if 3 of the 8 equal sections are shaded?", options: ["1/4", "3/8", "1/2", "5/8", "3/4"], answer: 1, explanation: "3 out of 8 equal parts = 3/8." },
+  { q: "A train leaves at 15:40 and the journey takes 2 hours 25 minutes. What time does it arrive?", options: ["17:55", "18:05", "18:15", "18:25", "18:40"], answer: 1, explanation: "15:40 + 2 hours 25 minutes = 18:05." },
+  { q: "A jacket was £60 and is reduced by 15%. What is the sale price?", options: ["£45", "£48", "£51", "£54", "£57"], answer: 2, explanation: "15% of 60 = 9, so 60 − 9 = 51." },
+  { q: "A pool holds 4,000 litres. Water is pumped in at 200 litres per minute. How long to fill the pool?", options: ["15 minutes", "20 minutes", "25 minutes", "30 minutes", "40 minutes"], answer: 1, explanation: "4000 ÷ 200 = 20 minutes." },
+  { q: "A book costs £32. It is reduced by one-quarter. What is the new price?", options: ["£8", "£16", "£24", "£28", "£30"], answer: 2, explanation: "One-quarter of 32 = 8, so 32 − 8 = 24." }
+);
+questions.english.push(
+  { q: "Choose the correct spelling:", options: ["recieve", "receive", "receeve", "recive"], answer: 1, explanation: "Correct spelling is receive (i before e except after c)." },
+  { q: "Which is a synonym for 'difficult'?", options: ["easy", "hard", "simple", "clear"], answer: 1, explanation: "Hard means difficult." },
+  { q: "Identify the adjective: 'The tall building was impressive.'", options: ["tall", "building", "was", "impressive"], answer: 0, explanation: "Tall describes the building." },
+  { q: "What is the antonym of 'generous'?", options: ["kind", "mean", "giving", "helpful"], answer: 1, explanation: "Mean is the opposite of generous." },
+  { q: "Which sentence is correct?", options: ["They is happy.", "They are happy.", "They am happy.", "They be happy."], answer: 1, explanation: "They are happy is correct." }
+);
+questions.vr.push(
+  { q: "Complete: Bird is to Fly as Fish is to ___", options: ["Swim", "Walk", "Run", "Jump"], answer: 0, explanation: "Birds fly; fish swim." },
+  { q: "Which is the odd one out? apple, pear, carrot, banana", options: ["apple", "pear", "carrot", "banana"], answer: 2, explanation: "Carrot is a vegetable." },
+  { q: "If CAT = 3-1-20, what is DOG?", options: ["4-15-7", "4-14-7", "5-15-7", "4-15-6"], answer: 0, explanation: "D=4, O=15, G=7." },
+  { q: "Which word does not belong? red, blue, green, chair", options: ["red", "blue", "green", "chair"], answer: 3, explanation: "Chair is not a colour." },
+  { q: "Complete the series: 5, 10, 20, 40, ___", options: ["60", "70", "80", "90"], answer: 2, explanation: "Each number is doubled." }
+);
+questions.nvr.push(
+  { q: "A circle is rotated 90 degrees. What does it look like?", options: ["The same", "A square", "An oval", "A triangle"], answer: 0, explanation: "A circle looks the same after any rotation." },
+  { q: "How many sides does a hexagon have?", options: ["5", "6", "7", "8"], answer: 1, explanation: "A hexagon has 6 sides." },
+  { q: "Which shape has the most sides?", options: ["Triangle", "Square", "Pentagon", "Hexagon"], answer: 3, explanation: "Hexagon has 6 sides." },
+  { q: "A shape is enlarged. What happens to the angles?", options: ["They get bigger", "They stay the same", "They get smaller", "They disappear"], answer: 1, explanation: "Angles stay the same when a shape is enlarged." },
+  { q: "Which comes next: Square, Circle, Square, Circle, ___?", options: ["Triangle", "Square", "Circle", "Pentagon"], answer: 1, explanation: "Alternating pattern." },
+  { q: "A square is reflected over a vertical line. What happens?", options: ["It becomes a rectangle", "It looks the same", "It becomes a circle", "It disappears"], answer: 1, explanation: "A square looks the same after vertical reflection." },
+  { q: "Complete the sequence of rotations: Arrow pointing up → right → down → ?", options: ["Up", "Left", "Right", "Diagonal"], answer: 1, explanation: "Continuing 90° clockwise: left." },
+  { q: "Which shape is most like the others? (All have right angles except one)", options: ["Square", "Rectangle", "Circle", "Rhombus"], answer: 2, explanation: "Circle has no angles." },
+  { q: "How many squares are in a 3×3 grid (including larger squares)?", options: ["9", "14", "16", "18"], answer: 1, explanation: "9 small + 4 medium (2×2) + 1 large = 14." },
+  { q: "A triangle pointing up is rotated 90° clockwise. Which way does it point?", options: ["Up", "Right", "Down", "Left"], answer: 1, explanation: "90° clockwise turns it to point right." },
+  { q: "Odd one out: all shapes have 4 sides except one.", options: ["Square", "Rectangle", "Pentagon", "Rhombus"], answer: 2, explanation: "Pentagon has 5 sides." },
+  { q: "Which comes next in the pattern: Circle, Square, Triangle, Circle, Square, ___?", options: ["Circle", "Square", "Triangle", "Pentagon"], answer: 2, explanation: "Repeating sequence of three shapes." },
+  { q: "A shape is flipped horizontally. What is this called?", options: ["Rotation", "Reflection", "Translation", "Enlargement"], answer: 1, explanation: "A flip is a reflection." },
+  { q: "How many triangles are there in a large triangle divided into 4 smaller equal triangles?", options: ["4", "6", "8", "5"], answer: 0, explanation: "Typically 4 small triangles." },
+  { q: "Which figure has rotational symmetry of order 4?", options: ["Equilateral triangle", "Square", "Regular pentagon", "Circle only"], answer: 1, explanation: "A square looks the same after 90°, 180°, 270° and 360° turns." },
+  { q: "Looking at a stack of cubes from above, which view shows the correct top-down outline?", options: ["L-shape with 3 cubes", "Straight line of 4 cubes", "T-shape", "Square of 4 cubes"], answer: 0, explanation: "The top view of a typical stepped stack often forms an L or similar connected shape." },
+  { q: "A cube is rotated so the front face becomes the top. What happens to the original top face?", options: ["It becomes the back", "It becomes the front", "It becomes the bottom", "It disappears"], answer: 0, explanation: "When the front becomes the top, the original top usually becomes the back." },
+  { q: "Which net folds into a cube?", options: ["A cross of 6 squares", "A straight line of 6 squares", "A 2×2 grid plus 2", "A 3×3 grid"], answer: 0, explanation: "A cross-shaped net of 6 squares is a classic cube net." },
+  { q: "Complete the pattern: Arrow up, arrow right, arrow down, arrow ___?", options: ["Up", "Left", "Right", "Diagonal"], answer: 1, explanation: "90° clockwise rotation continues to left." },
+  { q: "Odd one out: which shape does not have rotational symmetry?", options: ["Square", "Equilateral triangle", "Rectangle", "Scalene triangle"], answer: 3, explanation: "A scalene triangle has no rotational symmetry." },
+  { q: "A figure is reflected in a vertical mirror line. Which option shows the correct reflection?", options: ["Same orientation", "Left-right swapped", "Upside down", "Rotated 90°"], answer: 1, explanation: "A vertical mirror swaps left and right." },
+  { q: "How many cubes are in a 2×2×2 solid cube?", options: ["4", "6", "8", "16"], answer: 2, explanation: "2 × 2 × 2 = 8 small cubes." },
+  { q: "Which shape comes next in the sequence: Circle, Square, Pentagon, Hexagon, ___?", options: ["Heptagon", "Octagon", "Triangle", "Rectangle"], answer: 0, explanation: "Number of sides increases by 1 each time: 1,4,5,6 → 7 sides." },
+  { q: "A square is rotated 45 degrees. What does it look like?", options: ["A diamond / rhombus", "A circle", "A rectangle", "The same"], answer: 0, explanation: "A square rotated 45° looks like a diamond." },
+  { q: "Which is the odd one out?", options: ["Cube", "Cuboid", "Sphere", "Pyramid"], answer: 2, explanation: "Sphere has no flat faces; the others do." }
+);
+questions.maths.push(
+  { q: "A school trip costs £24 per pupil. 40 pupils are going. What is the total cost?", options: ["£800", "£900", "£960", "£1000", "£1200"], answer: 2, explanation: "24 × 40 = 960." },
+  { q: "Of 500 pupils, 3/5 are wearing blazers. How many are not wearing blazers?", options: ["150", "200", "250", "300", "350"], answer: 1, explanation: "3/5 of 500 = 300 wearing blazers. 500 − 300 = 200 not wearing blazers." },
+  { q: "A train leaves at 06:45 and arrives at 09:15. How long is the journey?", options: ["2 hours 15 min", "2 hours 30 min", "2 hours 45 min", "3 hours", "3 hours 15 min"], answer: 1, explanation: "From 06:45 to 09:15 is 2 hours 30 minutes." },
+  { q: "What is 15% of 240?", options: ["24", "30", "36", "40", "48"], answer: 2, explanation: "15% of 240 = 0.15 × 240 = 36." },
+  { q: "A rectangle is 20 cm long and 9 cm wide. What is its area?", options: ["29 cm²", "58 cm²", "180 cm²", "290 cm²", "360 cm²"], answer: 2, explanation: "Area = 20 × 9 = 180 cm²." },
+  { q: "A bottle holds 1.75 litres. How many millilitres is this?", options: ["175 ml", "1750 ml", "17.5 ml", "2500 ml", "17500 ml"], answer: 1, explanation: "1.75 litres = 1750 ml." },
+  { q: "A game costs £56 and is reduced by 25%. What is the sale price?", options: ["£14", "£28", "£42", "£45", "£50"], answer: 2, explanation: "25% of 56 = 14, so 56 − 14 = 42." },
+  { q: "There are 96 sweets shared equally between 8 children. How many does each get?", options: ["10", "11", "12", "13", "14"], answer: 2, explanation: "96 ÷ 8 = 12." },
+  { q: "What is the next number: 2, 6, 12, 20, 30, ___?", options: ["36", "40", "42", "48", "56"], answer: 2, explanation: "Differences increase by 2 each time: +4, +6, +8, +10, so next +12 = 42." },
+  { q: "A tank holds 3,000 ml. Water is added at 150 ml per minute. How long to fill it?", options: ["15 minutes", "18 minutes", "20 minutes", "25 minutes", "30 minutes"], answer: 2, explanation: "3000 ÷ 150 = 20 minutes." }
+);
+questions.english.push(
+  { q: "Choose the correct spelling:", options: ["definately", "definitely", "definitly", "definatly"], answer: 1, explanation: "The correct spelling is definitely." },
+  { q: "Which is a synonym for 'ancient'?", options: ["new", "old", "modern", "recent"], answer: 1, explanation: "Old means ancient." },
+  { q: "Identify the verb: 'The children ran quickly to school.'", options: ["children", "ran", "quickly", "school"], answer: 1, explanation: "Ran is the action word (verb)." },
+  { q: "What is the antonym of 'generous'?", options: ["kind", "mean", "helpful", "giving"], answer: 1, explanation: "Mean is the opposite of generous." },
+  { q: "Which sentence is correct?", options: ["She don't like apples.", "She doesn't like apples.", "She not like apples.", "She doesn't likes apples."], answer: 1, explanation: "She doesn't like apples is correct." },
+  { q: "Choose the correct spelling:", options: ["seperate", "separate", "seperete", "seperat"], answer: 1, explanation: "The correct spelling is separate." },
+  { q: "Which word is a noun in: 'The bright sun shone all day.'", options: ["bright", "sun", "shone", "all"], answer: 1, explanation: "Sun is a noun (a thing)." },
+  { q: "What is a synonym for 'rapid'?", options: ["slow", "fast", "lazy", "gentle"], answer: 1, explanation: "Fast means rapid." }
+);
+questions.english.push(
+  { q: "Read the poem: 'The silver moon hangs high tonight, / Casting shadows soft and light. / Trees stand still, the wind is low, / All the world is fast asleep below.' What is the mood of the poem?", options: ["Angry", "Peaceful", "Frightening", "Exciting"], answer: 1, explanation: "Words like 'soft', 'still' and 'asleep' create a calm, peaceful mood." },
+  { q: "In the poem above, what does the moon do?", options: ["Rises quickly", "Hangs high", "Disappears", "Shines brightly"], answer: 1, explanation: "The poem says 'The silver moon hangs high tonight'." },
+  { q: "Read: 'Mia crept along the dark corridor. Her heart thumped. Somewhere ahead, a door creaked. She froze, then took another careful step.' How does Mia feel?", options: ["Happy", "Nervous", "Angry", "Bored"], answer: 1, explanation: "Her heart thumping and freezing show she is nervous." },
+  { q: "In the passage above, why does Mia freeze?", options: ["She is cold", "She hears a door creak", "She is tired", "She sees a friend"], answer: 1, explanation: "She freezes after hearing a door creak." },
+  { q: "Poem: 'Raindrops dance on the window pane, / Racing each other down the glass. / Some are fast, some take their time, / Leaving trails as they pass.' What are the raindrops compared to?", options: ["Animals", "Runners in a race", "Stars", "Birds"], answer: 1, explanation: "They are 'racing each other', so they are compared to runners." },
+  { q: "Fiction: 'Tom opened the old chest. Inside lay a map, yellow with age, and a small brass key. His eyes widened.' What does Tom find?", options: ["A book and a coin", "A map and a key", "A letter and a photo", "A toy and a ribbon"], answer: 1, explanation: "He finds a map and a small brass key." },
+  { q: "In the passage above, how does Tom react?", options: ["He is disappointed", "His eyes widen", "He closes the chest", "He walks away"], answer: 1, explanation: "The text says 'His eyes widened'." },
+  { q: "Poem: 'The old oak tree has stood for years, / Through wind and rain and winter's tears. / Its branches reach towards the sky, / As seasons come and seasons die.' What has the tree experienced?", options: ["Only summer", "Wind, rain and winter", "Just one season", "No weather"], answer: 1, explanation: "It has stood 'Through wind and rain and winter's tears'." },
+  { q: "Fiction: 'Lila ran to the garden. The flowers she had planted were finally blooming. She smiled and knelt to smell them.' Why is Lila happy?", options: ["It is raining", "Her flowers are blooming", "She is late", "She found money"], answer: 1, explanation: "Her flowers are finally blooming." },
+  { q: "Poem: 'Stars are scattered across the night, / Like diamonds on a velvet cloth. / The moon is a lantern shining bright, / Guiding travellers along their path.' What is the moon compared to?", options: ["A diamond", "A lantern", "A cloth", "A star"], answer: 1, explanation: "The poem says 'The moon is a lantern shining bright'." },
+  { q: "Fiction: 'The boy whispered, “I don’t want to go.” His mother squeezed his hand. “It will be all right,” she said softly.' What is the boy feeling?", options: ["Excited", "Unwilling / worried", "Angry", "Hungry"], answer: 1, explanation: "He whispers that he doesn’t want to go, showing reluctance or worry." },
+  { q: "Poem: 'Leaves of red and gold fall down, / Covering the quiet town. / Autumn’s brush has painted trees, / Dancing gently in the breeze.' What season is described?", options: ["Spring", "Summer", "Autumn", "Winter"], answer: 2, explanation: "It mentions red and gold leaves and 'Autumn’s brush'." }
+);
+questions.vr.push(
+  { q: "Complete: Doctor is to Hospital as Teacher is to ___", options: ["School", "Book", "Pupil", "Lesson"], answer: 0, explanation: "Doctors work in hospitals; teachers work in schools." },
+  { q: "Which is the odd one out? oak, ash, pine, rose", options: ["oak", "ash", "pine", "rose"], answer: 3, explanation: "Rose is a flower; the others are trees." },
+  { q: "If APPLE = 1-16-16-12-5, what is PEAR?", options: ["16-5-1-18", "16-5-1-17", "15-5-1-18", "16-6-1-18"], answer: 0, explanation: "P=16, E=5, A=1, R=18." },
+  { q: "Complete the series: 7, 14, 28, 56, ___", options: ["84", "98", "112", "126"], answer: 2, explanation: "Each number is doubled: 56 × 2 = 112." },
+  { q: "Which word does not belong? happy, sad, joyful, table", options: ["happy", "sad", "joyful", "table"], answer: 3, explanation: "Table is not an emotion." },
+  { q: "Bird is to Nest as Bee is to ___", options: ["Hive", "Honey", "Flower", "Wing"], answer: 0, explanation: "Birds live in nests; bees live in hives." },
+  { q: "Odd one out: circle, square, triangle, book", options: ["circle", "square", "triangle", "book"], answer: 3, explanation: "Book is not a shape." }
+);
+questions.nvr.push(
+  { q: "A cube is viewed from above. Which shape could be the top view?", options: ["Square", "Circle", "Triangle", "Pentagon"], answer: 0, explanation: "The top view of a cube is a square." },
+  { q: "Which net can fold into a cube?", options: ["Cross of 6 squares", "Straight line of 5 squares", "2×3 rectangle only", "Circle of squares"], answer: 0, explanation: "A cross of 6 squares is a valid cube net." },
+  { q: "A shape is rotated 180 degrees. What happens?", options: ["It looks upside down", "It disappears", "It becomes larger", "It changes colour"], answer: 0, explanation: "A 180° rotation turns it upside down." },
+  { q: "How many faces does a cube have?", options: ["4", "5", "6", "8"], answer: 2, explanation: "A cube has 6 faces." },
+  { q: "Which shape has no corners?", options: ["Triangle", "Square", "Circle", "Pentagon"], answer: 2, explanation: "A circle has no corners." },
+  { q: "Complete the pattern: Triangle, Square, Pentagon, Hexagon, ___?", options: ["Heptagon", "Octagon", "Circle", "Rectangle"], answer: 0, explanation: "Number of sides increases by 1 each time." },
+  { q: "A square is reflected in a horizontal mirror. What happens?", options: ["Left-right swap", "Top-bottom swap", "It becomes a circle", "Nothing"], answer: 1, explanation: "A horizontal mirror swaps top and bottom." },
+  { q: "Odd one out: all have 4 sides except one.", options: ["Square", "Rectangle", "Rhombus", "Triangle"], answer: 3, explanation: "Triangle has 3 sides." },
+  { q: "How many small cubes make a 3×3×3 cube?", options: ["9", "18", "27", "36"], answer: 2, explanation: "3 × 3 × 3 = 27 small cubes." },
+  { q: "Which comes next: Arrow up, arrow right, arrow down, arrow ___?", options: ["Up", "Left", "Right", "Diagonal"], answer: 1, explanation: "Continuing 90° clockwise rotation: left." }
+);
+questions.nvr.push(
+  { q: "Looking at a 3×3×3 cube from above, how many small cubes do you see on the top face?", options: ["6", "8", "9", "12"], answer: 2, explanation: "A 3×3 top face shows 9 small cubes." },
+  { q: "A cube has a circle on the front face. When you look from the right side, which face do you see?", options: ["The front face", "The right face", "The back face", "The top face"], answer: 1, explanation: "From the right side you see the right face." },
+  { q: "Which net can fold into a cube?", options: ["A cross of 6 squares", "A straight line of 4 squares", "A 2×2 square", "A triangle of 3 squares"], answer: 0, explanation: "A cross of 6 squares is a valid cube net." },
+  { q: "A 2×2×2 cube is painted on the outside. How many small cubes have no paint?", options: ["0", "1", "4", "8"], answer: 0, explanation: "In a 2×2×2 cube every small cube is on the outside, so none have zero paint." },
+  { q: "From which direction would a cube look like a square?", options: ["Any face-on direction", "Only from the top", "Only from the side", "Never"], answer: 0, explanation: "Looking straight at any face of a cube shows a square." },
+  { q: "A cube is rotated 90° to the right. What happens to the front face?", options: ["It becomes the right face", "It becomes the top face", "It stays the front", "It disappears"], answer: 0, explanation: "A 90° right rotation moves the front face to the right." },
+  { q: "How many faces of a cube can you see at the same time in a normal 3D drawing?", options: ["1", "2", "3", "4"], answer: 2, explanation: "In a typical isometric view you can see 3 faces." },
+  { q: "A stack of cubes is 3 high, 2 wide and 1 deep. How many small cubes are there in total?", options: ["5", "6", "8", "9"], answer: 1, explanation: "3 × 2 × 1 = 6 small cubes." },
+  { q: "Which view shows the top of a cube?", options: ["Plan view", "Front elevation", "Side elevation", "Isometric"], answer: 0, explanation: "The plan view is the view from directly above." },
+  { q: "A cube has opposite faces that add up to 7 (like a die). If the top is 1, what is the bottom?", options: ["2", "5", "6", "7"], answer: 2, explanation: "1 + 6 = 7, so the bottom is 6." },
+  { q: "Looking at a cube from the front, then turning it so the top becomes the front. What have you done?", options: ["Rotated it forward 90°", "Rotated it left 90°", "Reflected it", "Nothing"], answer: 0, explanation: "Turning the top to the front is a 90° forward rotation." },
+  { q: "A 3×3×3 cube has how many small cubes that are completely inside (not on any face)?", options: ["0", "1", "8", "9"], answer: 1, explanation: "Only the very centre cube of a 3×3×3 is completely inside." },
+  { q: "Which shape is the side view of a cube?", options: ["Square", "Rectangle", "Triangle", "Circle"], answer: 0, explanation: "The side view of a cube is a square." },
+  { q: "Two cubes are stacked. How many faces are touching?", options: ["1", "2", "4", "6"], answer: 0, explanation: "Only one face of each cube is touching the other." },
+  { q: "A cube is viewed from the corner. How many faces can you see?", options: ["1", "2", "3", "4"], answer: 2, explanation: "From a corner you can see three faces." },
+  { q: "Which net has the correct number of squares for a cube?", options: ["4", "5", "6", "8"], answer: 2, explanation: "A cube has 6 faces, so its net needs 6 squares." },
+  { q: "A cube is painted blue on the front and red on the back. Looking from above, what do you see?", options: ["Blue and red", "Only the top face", "Blue only", "Red only"], answer: 1, explanation: "From above you only see the top face." },
+  { q: "In a 4×4×4 cube, how many small cubes are on the outside?", options: ["56", "64", "48", "32"], answer: 0, explanation: "4×4×4 = 64 total. Inner 2×2×2 = 8 unpainted. 64 − 8 = 56 on the outside." },
+  { q: "A cube is rotated 180°. The front face now faces which way?", options: ["Back", "Top", "Side", "Still front"], answer: 0, explanation: "A 180° rotation makes the front face point backwards." },
+  { q: "Which is the odd one out for cube nets?", options: ["Cross", "Zigzag of 6", "Straight line of 6", "2×3 rectangle"], answer: 3, explanation: "A 2×3 rectangle of squares cannot fold into a cube." },
+  { q: "Looking down on a 2×2×2 cube, how many small cubes do you see?", options: ["2", "4", "6", "8"], answer: 1, explanation: "The top face of a 2×2×2 shows 4 small cubes." },
+  { q: "A cube has a star on the top. After flipping it over, where is the star?", options: ["Still on top", "On the bottom", "On the side", "Gone"], answer: 1, explanation: "Flipping it over moves the top to the bottom." },
+  { q: "How many edges does a cube have?", options: ["6", "8", "12", "24"], answer: 2, explanation: "A cube has 12 edges." },
+  { q: "Which view is looking directly at the front of an object?", options: ["Plan", "Front elevation", "Side elevation", "Isometric"], answer: 1, explanation: "Front elevation is the view from the front." },
+  { q: "A cube is cut in half. How many small cubes do you get if it was a solid cube?", options: ["1", "2", "4", "8"], answer: 1, explanation: "Cutting a cube in half gives two pieces." },
+  { q: "In a net of a cube, opposite faces never share an edge. True or false?", options: ["True", "False"], answer: 0, explanation: "True – opposite faces do not share an edge in a cube net." },
+  { q: "A 3D shape made of 4 cubes in a line. What does the side view look like?", options: ["A long rectangle", "A square", "A triangle", "A circle"], answer: 0, explanation: "From the side a line of cubes looks like a long rectangle." },
+  { q: "Which direction is the plan view taken from?", options: ["Front", "Side", "Above", "Below"], answer: 2, explanation: "The plan view is taken from directly above." },
+  { q: "A cube has 6 faces. If you paint 1 face, how many faces are unpainted?", options: ["3", "4", "5", "6"], answer: 2, explanation: "6 − 1 = 5 unpainted faces." },
+  { q: "Looking at a cube from the left, then from the right. Are the views the same?", options: ["Yes, always", "No, they show opposite faces", "Yes if it is blank", "Only if rotated"], answer: 1, explanation: "Left and right views show opposite faces of the cube." }
+);
+questions.nvr.push(
+  { q: "Sequence: Circle, Square, Triangle, Circle, Square, ___?", options: ["Triangle", "Circle", "Square", "Pentagon"], answer: 0, explanation: "The pattern repeats: Circle, Square, Triangle." },
+  { q: "Analogy: Cube is to 6 faces as Square is to ___ sides.", options: ["2", "3", "4", "6"], answer: 2, explanation: "A cube has 6 faces; a square has 4 sides." },
+  { q: "Which 2D shape is the top view of a cube?", options: ["Triangle", "Square", "Circle", "Rectangle"], answer: 1, explanation: "The top view of a cube is a square." },
+  { q: "Sequence: 1 cube, 2 cubes, 4 cubes, 8 cubes, ___?", options: ["10", "12", "16", "32"], answer: 2, explanation: "Each step doubles: 8 × 2 = 16." },
+  { q: "Analogy: Net is to Cube as Unfolded shape is to ___", options: ["Circle", "3D solid", "Line", "Point"], answer: 1, explanation: "A net unfolds into a 3D solid." },
+  { q: "Looking at a stack of 3 cubes from the side, what do you see?", options: ["3 squares in a column", "1 square", "A triangle", "A circle"], answer: 0, explanation: "A side view of 3 stacked cubes shows 3 squares stacked." },
+  { q: "Sequence: Arrow up, arrow right, arrow down, arrow left, arrow ___?", options: ["Up", "Down", "Diagonal", "None"], answer: 0, explanation: "The sequence cycles through the four directions." },
+  { q: "Analogy: Front view is to Elevation as Top view is to ___", options: ["Plan", "Side", "Isometric", "Net"], answer: 0, explanation: "Top view is called the plan view." },
+  { q: "A shape is rotated 90° clockwise each time. After 4 rotations, where is it?", options: ["Upside down", "Back to the start", "On its side", "Gone"], answer: 1, explanation: "4 × 90° = 360°, so it returns to the start." },
+  { q: "Which is the odd one out: cube, cuboid, sphere, square?", options: ["Cube", "Cuboid", "Sphere", "Square"], answer: 3, explanation: "Square is 2D; the others are 3D." },
+  { q: "Sequence of views: Front, Side, Top, Front, Side, ___?", options: ["Top", "Front", "Side", "Back"], answer: 0, explanation: "The pattern of views repeats." },
+  { q: "Analogy: 2D is to Flat as 3D is to ___", options: ["Solid", "Line", "Point", "Angle"], answer: 0, explanation: "3D shapes are solid." },
+  { q: "How many small squares do you see looking down on a 3×3 grid of cubes?", options: ["6", "8", "9", "12"], answer: 2, explanation: "A 3×3 top view shows 9 squares." },
+  { q: "Sequence: Triangle, Square, Pentagon, Hexagon, ___?", options: ["Heptagon", "Octagon", "Circle", "Rectangle"], answer: 0, explanation: "Number of sides increases by 1 each time." },
+  { q: "Analogy: Mirror is to Reflection as Turn is to ___", options: ["Rotation", "Translation", "Enlargement", "Nothing"], answer: 0, explanation: "A turn is a rotation." },
+  { q: "Which net folds into a cube?", options: ["Cross of 6", "Line of 5", "2×2 square", "Triangle"], answer: 0, explanation: "A cross of 6 squares folds into a cube." },
+  { q: "Sequence of rotations: 0°, 90°, 180°, 270°, ___?", options: ["360°", "450°", "90°", "0°"], answer: 0, explanation: "Adding 90° each time: 270° + 90° = 360°." },
+  { q: "Analogy: Cube is to Square as Sphere is to ___", options: ["Circle", "Triangle", "Rectangle", "Pentagon"], answer: 0, explanation: "The 2D version of a sphere is a circle." },
+  { q: "A 2×2×2 cube viewed from above shows how many small cubes?", options: ["2", "4", "6", "8"], answer: 1, explanation: "The top face shows 4 small cubes." },
+  { q: "Which comes next in the pattern of shapes: ○ □ △ ○ □ ___?", options: ["△", "○", "□", "◇"], answer: 0, explanation: "The pattern repeats every three shapes." },
+  { q: "Analogy: Elevation is to Front as Plan is to ___", options: ["Top", "Side", "Bottom", "Back"], answer: 0, explanation: "Plan is the top view." },
+  { q: "Sequence: 1, 4, 9, 16, ___? (number of small squares in growing grids)", options: ["20", "25", "30", "36"], answer: 1, explanation: "These are square numbers: 5×5 = 25." },
+  { q: "Analogy: Net is to Unfolded as Solid is to ___", options: ["Folded", "Flat", "Line", "Point"], answer: 0, explanation: "A solid is the folded version of a net." },
+  { q: "Looking at a cube from the corner in a 3D drawing, how many faces do you usually see?", options: ["1", "2", "3", "4"], answer: 2, explanation: "From a corner you can see three faces." },
+  { q: "Sequence of arrows turning clockwise: ↑ → ↓ ← ___?", options: ["↑", "→", "↓", "←"], answer: 0, explanation: "After a full cycle it returns to up." },
+  { q: "Analogy: 2D view is to Flat drawing as 3D view is to ___", options: ["Solid drawing", "Line", "Dot", "Angle"], answer: 0, explanation: "A 3D view shows the solid form." },
+  { q: "Which is the next shape in a growing pattern of cubes: 1, 3, 6, 10, ___?", options: ["12", "14", "15", "20"], answer: 2, explanation: "Triangular numbers: +2, +3, +4, so next +5 = 15." },
+  { q: "Analogy: Front elevation is to Side elevation as Length is to ___", options: ["Width", "Height", "Depth", "Area"], answer: 0, explanation: "Front shows length; side shows width (or depth)." }
+);
+
+let packMode = false;
+let currentPack = 1;
+let packSubjects = ['maths', 'english', 'vr', 'nvr'];
+let packIndex = 0;
+let packScores = {};
+let missedQuestions = [];
+
+function choosePackSubject(packNum) {
+  if (!currentUser) return showLogin();
+  const choice = prompt(`Pack ${packNum} – Choose a subject:\n\n1 = Maths\n2 = English\n3 = Verbal Reasoning\n4 = Non-Verbal Reasoning\n\nType 1, 2, 3 or 4:`);
+  const map = { '1': 'maths', '2': 'english', '3': 'vr', '4': 'nvr' };
+  const subject = map[choice];
+  if (!subject) {
+    alert('Please choose 1, 2, 3 or 4.');
+    return;
+  }
+  packMode = false; // single subject, not full pack sequence
+  currentPack = packNum;
+  startSubject(subject, 'pack30');
+}
+
+function nextPackSubject() {
+  packIndex++;
+  if (packIndex < packSubjects.length) {
+    startSubject(packSubjects[packIndex], 'pack30');
+  } else {
+    finishPack();
+  }
+}
+
+function finishPack() {
+  packMode = false;
+  if (timerInterval) clearInterval(timerInterval);
+  
+  let totalScore = 0;
+  let totalQuestions = 0;
+  Object.keys(packScores).forEach(sub => {
+    totalScore += packScores[sub].score;
+    totalQuestions += packScores[sub].total;
+  });
+  
+  const pct = totalQuestions > 0 ? Math.round((totalScore / totalQuestions) * 100) : 0;
+  
+  const entry = {
+    user: currentUser,
+    score: totalScore,
+    total: totalQuestions,
+    pct: pct,
+    date: new Date().toISOString().slice(0, 10),
+    details: packScores
+  };
+  
+  const key = `moonTuitionPack${currentPack}Leaderboard`;
+  let board = JSON.parse(localStorage.getItem(key) || '[]');
+  board.push(entry);
+  board.sort((a, b) => b.pct - a.pct || b.score - a.score);
+  localStorage.setItem(key, JSON.stringify(board));
+  
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('results').classList.add('active');
+  document.getElementById('score-value').textContent = totalScore;
+  document.querySelector('.score-label').textContent = `/ ${totalQuestions}`;
+  document.getElementById('score-message').textContent = `Pack ${currentPack} complete! ${pct}% overall.`;
+  
+  let actions = `<button class="btn-primary" onclick="showRanking(${currentPack})">View Pack ${currentPack} Leaderboard</button>`;
+  if (missedQuestions.length > 0) {
+    actions += ` <button class="btn-secondary" onclick="showReview()">Review Missed Questions</button>`;
+  }
+  if (pct >= 80) {
+    actions += ` <button class="btn-primary" onclick="showCertificate(${pct}, ${currentPack})">Get Certificate</button>`;
+  }
+  actions += ` <button class="btn-secondary" onclick="showHome()">Back to Home</button>`;
+  document.querySelector('.results-actions').innerHTML = actions;
+}
+
+function showRanking(packNum = 1) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('ranking').classList.add('active');
+  document.getElementById('ranking-title').textContent = `Full Pack ${packNum} Leaderboard`;
+  renderRanking(packNum);
+}
+
+function renderRanking(packNum = 1) {
+  const key = `moonTuitionPack${packNum}Leaderboard`;
+  const board = JSON.parse(localStorage.getItem(key) || '[]');
+  const container = document.getElementById('ranking-table');
+  if (board.length === 0) {
+    container.innerHTML = `<p>No attempts for Pack ${packNum} yet.</p>`;
+    return;
+  }
+  
+  let html = '<table style="width:100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden;">';
+  html += '<tr style="background:#f8fafc;"><th style="padding:12px; text-align:left;">Rank</th><th style="padding:12px; text-align:left;">Student</th><th style="padding:12px;">Score</th><th style="padding:12px;">%</th><th style="padding:12px;">Date</th></tr>';
+  
+  board.slice(0, 20).forEach((entry, i) => {
+    const highlight = entry.user === currentUser ? 'background:#eff6ff; font-weight:600;' : '';
+    html += `<tr style="${highlight} border-bottom:1px solid #e2e8f0;">
+      <td style="padding:12px;">${i + 1}</td>
+      <td style="padding:12px;">${entry.user}</td>
+      <td style="padding:12px; text-align:center;">${entry.score}/${entry.total}</td>
+      <td style="padding:12px; text-align:center;">${entry.pct}%</td>
+      <td style="padding:12px; text-align:center;">${entry.date}</td>
+    </tr>`;
+  });
+  html += '</table>';
+  container.innerHTML = html;
+}
+
+function showReview() {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('review').classList.add('active');
+  const container = document.getElementById('review-content');
+  if (!missedQuestions || missedQuestions.length === 0) {
+    container.innerHTML = '<p>No missed questions to review.</p>';
+    return;
+  }
+  let html = '';
+  missedQuestions.forEach((item, i) => {
+    const qText = (item.q || '').replace(/</g, '<').replace(/>/g, '>');
+    const correct = (item.correct || '').replace(/</g, '<').replace(/>/g, '>');
+    const expl = (item.explanation || '').replace(/</g, '<').replace(/>/g, '>');
+    html += `<div style="background:white; padding:16px; border-radius:12px; margin-bottom:12px; border:1px solid #e2e8f0;">
+      <p><strong>Q${i+1}:</strong> ${qText}</p>
+      <p style="color:#166534; margin-top:8px;"><strong>Correct answer:</strong> ${correct}</p>
+      <p style="color:#64748b; margin-top:4px;">${expl}</p>
+    </div>`;
+  });
+  container.innerHTML = html;
+}
+
+function exportLeaderboard() {
+  const data = {};
+  for (let i = 1; i <= 7; i++) {
+    data[`pack${i}`] = JSON.parse(localStorage.getItem(`moonTuitionPack${i}Leaderboard`) || '[]');
+  }
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `moon-tuition-leaderboards-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  alert('Leaderboard exported. You can share this file with others.');
+}
+
+function importLeaderboard() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json';
+  input.onchange = e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try {
+        const data = JSON.parse(ev.target.result);
+        for (let i = 1; i <= 7; i++) {
+          if (data[`pack${i}`]) {
+            localStorage.setItem(`moonTuitionPack${i}Leaderboard`, JSON.stringify(data[`pack${i}`]));
+          }
+        }
+        alert('Leaderboard imported successfully!');
+        showRanking(1);
+      } catch (err) {
+        alert('Invalid file. Please select a valid leaderboard JSON file.');
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
+function showCertificate(pct, packNum) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('certificate').classList.add('active');
+  const content = document.getElementById('certificate-content');
+  content.innerHTML = `
+    <div style="border: 8px solid #2563eb; padding: 30px; border-radius: 8px;">
+      <div style="font-size: 48px; margin-bottom: 10px;">🏆</div>
+      <h1 style="color: #1e293b; margin: 0;">Certificate of Achievement</h1>
+      <p style="font-size: 1.2rem; color: #475569; margin: 16px 0;">This certifies that</p>
+      <h2 style="color: #2563eb; margin: 10px 0;">${currentUser}</h2>
+      <p style="font-size: 1.1rem;">has successfully completed</p>
+      <h3 style="color: #0f172a;">Moon Tuition ISEB Full Pack ${packNum}</h3>
+      <p style="font-size: 1.4rem; font-weight: bold; color: #059669; margin: 16px 0;">with a score of ${pct}%</p>
+      <p style="color: #64748b; font-size: 0.9rem;">Date: ${new Date().toLocaleDateString()}</p>
+      <p style="margin-top: 20px; font-style: italic; color: #94a3b8;">Moon Tuition · ISEB Practice Platform</p>
+    </div>
+  `;
+}
+
+function showParentReview() {
+  if (!currentUser) return showLogin();
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('parent-review').classList.add('active');
+  renderParentReview();
+}
+
+function renderParentReview() {
+  const container = document.getElementById('parent-review-content');
+  const progressKey = `moonTuitionProgress_${currentUser}`;
+  const progress = JSON.parse(localStorage.getItem(progressKey) || '{}');
+  
+  let html = `<div style="background:white; padding:20px; border-radius:12px; margin-bottom:16px;">
+    <h3 style="margin-bottom:8px;">Student: ${currentUser}</h3>
+    <p style="color:#64748b;">Generated: ${new Date().toLocaleDateString()}</p>
+  </div>`;
+  
+  // Subject practice summary
+  html += '<h3 style="margin:16px 0 8px;">Practice Summary</h3>';
+  const subjects = ['maths', 'english', 'vr', 'nvr'];
+  const names = { maths: 'Maths', english: 'English', vr: 'Verbal Reasoning', nvr: 'Non-Verbal Reasoning' };
+  let hasPractice = false;
+  subjects.forEach(s => {
+    const data = progress[s];
+    if (data && data.attempts > 0) {
+      hasPractice = true;
+      html += `<div style="background:#f8fafc; padding:12px; border-radius:8px; margin-bottom:8px;">
+        <strong>${names[s]}</strong>: ${data.attempts} attempt(s), best score ${data.best}/5
+      </div>`;
+    }
+  });
+  if (!hasPractice) {
+    html += '<p style="color:#64748b;">No practice completed yet.</p>';
+  }
+  
+  // Full pack results
+  html += '<h3 style="margin:20px 0 8px;">Full Pack Results</h3>';
+  let hasPacks = false;
+  for (let i = 1; i <= 10; i++) {
+    const board = JSON.parse(localStorage.getItem(`moonTuitionPack${i}Leaderboard`) || '[]');
+    const userResults = board.filter(e => e.user === currentUser);
+    if (userResults.length > 0) {
+      hasPacks = true;
+      const best = userResults.reduce((a, b) => a.pct > b.pct ? a : b);
+      html += `<div style="background:#f8fafc; padding:12px; border-radius:8px; margin-bottom:8px;">
+        <strong>Pack ${i}</strong>: Best ${best.pct}% (${best.score}/${best.total}) · ${userResults.length} attempt(s)
+      </div>`;
+    }
+  }
+  if (!hasPacks) {
+    html += '<p style="color:#64748b;">No full packs completed yet.</p>';
+  }
+  
+  container.innerHTML = html;
+}
+
+let currentQuestions = [];
+let currentIndex = 0;
+let score = 0;
+let answered = false;
+let isTimed = false;
+let timerInterval = null;
+let timeRemaining = 0;
+
+// Authentication & Users
+const INITIAL_USERS = {
+  student1: "password123",
+  student2: "moon2026",
+  student3: "isebprep",
+  admin: "admin123"
+};
+
+function getUsers() {
+  try {
+    const stored = localStorage.getItem('moonTuitionUsers');
+    if (!stored) {
+      const initial = {
+        student1: { password: "password123", type: "moon" },
+        student2: { password: "moon2026", type: "moon" },
+        student3: { password: "isebprep", type: "external" },
+        admin: { password: "admin123", type: "admin" }
+      };
+      localStorage.setItem('moonTuitionUsers', JSON.stringify(initial));
+      return initial;
+    }
+    const parsed = JSON.parse(stored);
+    // Migrate old format if needed
+    Object.keys(parsed).forEach(u => {
+      if (typeof parsed[u] === 'string') {
+        parsed[u] = { password: parsed[u], type: u === 'admin' ? 'admin' : 'moon' };
+      }
+    });
+    return parsed;
+  } catch (e) {
+    const initial = {
+      student1: { password: "password123", type: "moon" },
+      student2: { password: "moon2026", type: "moon" },
+      student3: { password: "isebprep", type: "external" },
+      admin: { password: "admin123", type: "admin" }
+    };
+    localStorage.setItem('moonTuitionUsers', JSON.stringify(initial));
+    return initial;
+  }
+}
+
+function saveUsers(users) {
+  localStorage.setItem('moonTuitionUsers', JSON.stringify(users));
+}
+
+let currentUser = null;
+let isAdmin = false;
+let authMode = 'login'; // 'login' or 'register'
+
+function initAuth() {
+  const savedUser = localStorage.getItem('moonTuitionUser');
+  if (savedUser) {
+    currentUser = savedUser;
+    isAdmin = (savedUser === 'admin');
+    showApp();
+  } else {
+    showLogin();
+  }
+}
+
+function showLogin() {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('login').classList.add('active');
+  document.getElementById('main-nav').style.display = 'none';
+  document.getElementById('login-error').textContent = '';
+  document.getElementById('forgot-message').style.display = 'none';
+  setAuthMode('login');
+}
+
+function setAuthMode(mode) {
+  authMode = mode;
+  const isLogin = mode === 'login';
+  document.getElementById('auth-title').textContent = isLogin ? 'Student Login' : 'Create Account';
+  document.getElementById('auth-subtitle').textContent = isLogin 
+    ? 'Enter your username and password to practise ISEB subjects.' 
+    : 'Register a new student account.';
+  document.getElementById('login-form').style.display = isLogin ? 'block' : 'none';
+  document.getElementById('register-form').style.display = isLogin ? 'none' : 'block';
+  document.getElementById('toggle-auth').textContent = isLogin 
+    ? 'Need an account? Register here' 
+    : 'Already have an account? Login';
+  document.getElementById('login-error').textContent = '';
+}
+
+function toggleAuthMode(e) {
+  e.preventDefault();
+  setAuthMode(authMode === 'login' ? 'register' : 'login');
+}
+
+function togglePassword() {
+  const input = document.getElementById('password');
+  input.type = input.type === 'password' ? 'text' : 'password';
+}
+
+function toggleRegPassword() {
+  const input = document.getElementById('reg-password');
+  input.type = input.type === 'password' ? 'text' : 'password';
+}
+
+function resetDemoAccounts(e) {
+  if (e) e.preventDefault();
+  if (confirm("Reset all demo accounts and clear saved login? This will also clear your progress data.")) {
+    localStorage.removeItem('moonTuitionUsers');
+    localStorage.removeItem('moonTuitionUser');
+    // Clear progress keys
+    Object.keys(localStorage).forEach(key => {
+      if (key.startsWith('moonTuitionProgress_') || key.startsWith('moonTuitionPack')) {
+        localStorage.removeItem(key);
+      }
+    });
+    alert("Demo accounts have been reset. You can now log in with:\nstudent1 / password123\nadmin / admin123");
+    location.reload();
+  }
+}
+
+function showResetForm(e) {
+  if (e) e.preventDefault();
+  document.getElementById('login-form').style.display = 'none';
+  document.getElementById('register-form').style.display = 'none';
+  document.getElementById('reset-form').style.display = 'block';
+  document.getElementById('forgot-message').style.display = 'block';
+  document.getElementById('auth-title').textContent = 'Reset Password';
+  document.getElementById('auth-subtitle').textContent = 'Enter your username and a new password.';
+  document.getElementById('login-error').textContent = '';
+}
+
+function hideResetForm(e) {
+  if (e) e.preventDefault();
+  document.getElementById('reset-form').style.display = 'none';
+  document.getElementById('forgot-message').style.display = 'none';
+  setAuthMode('login');
+}
+
+function handlePasswordReset(e) {
+  e.preventDefault();
+  const username = document.getElementById('reset-username').value.trim().toLowerCase();
+  const newPassword = document.getElementById('reset-new-password').value;
+  const errorEl = document.getElementById('login-error');
+  const users = getUsers();
+
+  if (!username) {
+    errorEl.textContent = "Please enter your username.";
+    return;
+  }
+  if (newPassword.length < 4) {
+    errorEl.textContent = "Password must be at least 4 characters.";
+    return;
+  }
+  if (!users[username]) {
+    errorEl.textContent = "Username not found. Please check the spelling or register a new account.";
+    return;
+  }
+  if (username === 'admin') {
+    errorEl.textContent = "Admin password cannot be reset this way. Contact Moon Tuition.";
+    return;
+  }
+
+  users[username].password = newPassword;
+  saveUsers(users);
+  errorEl.style.color = '#16a34a';
+  errorEl.textContent = "Password updated! You can now log in with your new password.";
+  
+  // Clear form and switch back to login after a moment
+  document.getElementById('reset-username').value = '';
+  document.getElementById('reset-new-password').value = '';
+  setTimeout(() => {
+    hideResetForm();
+    errorEl.style.color = '';
+    errorEl.textContent = '';
+  }, 2000);
+}
+
+function showApp() {
+  document.getElementById('main-nav').style.display = 'flex';
+  document.getElementById('welcome-user').textContent = `Hi, ${currentUser}`;
+  document.getElementById('nav-admin').style.display = isAdmin ? 'inline' : 'none';
+  document.getElementById('nav-progress').style.display = isAdmin ? 'none' : 'inline';
+  if (isAdmin) {
+    showAdmin();
+  } else {
+    showHome();
+  }
+}
+
+function quickLogin(username, password) {
+  document.getElementById('username').value = username;
+  document.getElementById('password').value = password;
+  // Trigger login
+  const fakeEvent = { preventDefault: function(){} };
+  handleLogin(fakeEvent);
+}
+
+function handleLogin(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const username = document.getElementById('username').value.trim().toLowerCase();
+  const password = document.getElementById('password').value.trim();
+  const errorEl = document.getElementById('login-error');
+  
+  try {
+    const users = getUsers();
+    const user = users[username];
+    if (user && String(user.password).trim() === password) {
+      currentUser = username;
+      isAdmin = (username === 'admin');
+      localStorage.setItem('moonTuitionUser', username);
+      showApp();
+    } else {
+      errorEl.textContent = "Invalid username or password.";
+    }
+  } catch (err) {
+    errorEl.textContent = "Login error. Please try again or click Reset demo accounts.";
+    console.error(err);
+  }
+}
+
+function handleRegister(e) {
+  e.preventDefault();
+  const username = document.getElementById('reg-username').value.trim().toLowerCase();
+  const password = document.getElementById('reg-password').value;
+  const errorEl = document.getElementById('login-error');
+  const users = getUsers();
+
+  if (username.length < 3) {
+    errorEl.textContent = "Username must be at least 3 characters.";
+    return;
+  }
+  if (password.length < 4) {
+    errorEl.textContent = "Password must be at least 4 characters.";
+    return;
+  }
+  if (users[username]) {
+    errorEl.textContent = "That username is already taken.";
+    return;
+  }
+  if (username === 'admin') {
+    errorEl.textContent = "This username is reserved.";
+    return;
+  }
+
+  users[username] = { password: password, type: "external" };
+  saveUsers(users);
+  
+  // Auto login after register
+  currentUser = username;
+  isAdmin = false;
+  localStorage.setItem('moonTuitionUser', username);
+  document.getElementById('reg-username').value = '';
+  document.getElementById('reg-password').value = '';
+  showApp();
+}
+
+function logout() {
+  currentUser = null;
+  isAdmin = false;
+  localStorage.removeItem('moonTuitionUser');
+  document.getElementById('username').value = '';
+  document.getElementById('password').value = '';
+  showLogin();
+}
+
+function showHome() {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+  if (!currentUser) return showLogin();
+  if (isAdmin) return showAdmin();
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('home').classList.add('active');
+}
+
+function handleCreateStudent(e) {
+  e.preventDefault();
+  const username = document.getElementById('new-username').value.trim().toLowerCase();
+  const password = document.getElementById('new-password').value;
+  const type = document.getElementById('student-type').value;
+  const msg = document.getElementById('create-message');
+  const users = getUsers();
+
+  if (username.length < 3) {
+    msg.style.color = '#dc2626';
+    msg.textContent = "Username must be at least 3 characters.";
+    return;
+  }
+  if (password.length < 4) {
+    msg.style.color = '#dc2626';
+    msg.textContent = "Password must be at least 4 characters.";
+    return;
+  }
+  if (users[username]) {
+    msg.style.color = '#dc2626';
+    msg.textContent = "That username already exists.";
+    return;
+  }
+  if (username === 'admin') {
+    msg.style.color = '#dc2626';
+    msg.textContent = "Cannot use the admin username.";
+    return;
+  }
+
+  users[username] = { password: password, type: type };
+  saveUsers(users);
+  msg.style.color = '#16a34a';
+  msg.textContent = `Account created: ${username} (${type === 'moon' ? 'Moon Tuition' : 'External'})`;
+  document.getElementById('new-username').value = '';
+  document.getElementById('new-password').value = '';
+  renderAdminStudents();
+}
+
+let currentStudentFilter = 'all';
+
+function filterStudents(type) {
+  currentStudentFilter = type;
+  renderAdminStudents();
+}
+
+function renderAdminStudents() {
+  const container = document.getElementById('admin-students-list');
+  const users = getUsers();
+  const subjects = [
+    { id: 'maths', name: 'Maths' },
+    { id: 'english', name: 'English' },
+    { id: 'vr', name: 'VR' },
+    { id: 'nvr', name: 'NVR' }
+  ];
+  
+  let html = '';
+  let count = 0;
+  
+  Object.keys(users).forEach(u => {
+    if (u === 'admin') return;
+    const info = users[u];
+    if (currentStudentFilter !== 'all' && info.type !== currentStudentFilter) return;
+    
+    count++;
+    const typeLabel = info.type === 'moon' ? 'Moon Tuition' : info.type === 'external' ? 'External' : info.type;
+    
+    // Practice progress
+    const progressKey = `moonTuitionProgress_${u}`;
+    const progress = JSON.parse(localStorage.getItem(progressKey) || '{}');
+    
+    let practiceHtml = '';
+    subjects.forEach(s => {
+      const data = progress[s.id] || { attempts: 0, best: 0 };
+      practiceHtml += `<span style="margin-right:12px;">${s.name}: ${data.best}/5 (${data.attempts} attempts)</span>`;
+    });
+    
+    // Pack results
+    let packHtml = '';
+    for (let i = 1; i <= 10; i++) {
+      const board = JSON.parse(localStorage.getItem(`moonTuitionPack${i}Leaderboard`) || '[]');
+      const userResults = board.filter(e => e.user === u);
+      if (userResults.length > 0) {
+        const best = userResults.reduce((a, b) => a.pct > b.pct ? a : b);
+        packHtml += `<span style="margin-right:12px;">Pack ${i}: ${best.pct}%</span>`;
+      }
+    }
+    if (!packHtml) packHtml = '<span style="color:#94a3b8;">No packs yet</span>';
+    
+    html += `
+      <div style="background:white; border-radius:12px; padding:16px; margin-bottom:12px; border:1px solid #e2e8f0;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <div>
+            <strong>${u}</strong>
+            <span style="color:#64748b; margin-left:8px;">(${typeLabel})</span>
+            <code style="margin-left:12px; background:#f1f5f9; padding:2px 6px; border-radius:4px;">${info.password}</code>
+          </div>
+          <button class="btn-secondary" style="padding:4px 10px; font-size:0.85rem;" onclick="deleteStudent('${u}')">Delete</button>
+        </div>
+        <div style="font-size:0.9rem; color:#475569; margin-bottom:4px;"><strong>Practice:</strong> ${practiceHtml || 'No practice yet'}</div>
+        <div style="font-size:0.9rem; color:#475569;"><strong>Packs:</strong> ${packHtml}</div>
+      </div>
+    `;
+  });
+  
+  if (count === 0) html = '<p>No students match this filter.</p>';
+  container.innerHTML = html;
+}
+
+function deleteStudent(username) {
+  if (!confirm(`Delete student ${username}?`)) return;
+  const users = getUsers();
+  delete users[username];
+  saveUsers(users);
+  renderAdminStudents();
+}
+
+function showAdmin() {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('admin').classList.add('active');
+  renderAdminStudents();
+}
+
+function renderAdmin() {
+  const users = getUsers();
+  const container = document.getElementById('admin-stats');
+  container.innerHTML = '';
+  
+  const subjects = [
+    { id: 'maths', name: 'Maths' },
+    { id: 'english', name: 'English' },
+    { id: 'vr', name: 'VR' },
+    { id: 'nvr', name: 'NVR' }
+  ];
+
+  Object.keys(users).forEach(username => {
+    if (username === 'admin') return;
+    const key = `moonTuitionProgress_${username}`;
+    const progress = JSON.parse(localStorage.getItem(key) || '{}');
+    
+    const div = document.createElement('div');
+    div.className = 'student-progress';
+    let statsHtml = '';
+    subjects.forEach(s => {
+      const data = progress[s.id] || { attempts: 0, best: 0 };
+      statsHtml += `<span>${s.name}: ${data.best}/5 (${data.attempts} attempts)</span>`;
+    });
+    
+    const hasActivity = Object.keys(progress).length > 0;
+    div.innerHTML = `
+      <h3>${username}</h3>
+      <div class="mini-stats">${hasActivity ? statsHtml : '<span>No practice yet</span>'}</div>
+      <button class="btn-secondary" style="margin-top: 10px; font-size: 0.85rem; padding: 6px 12px;" onclick="resetStudentPassword('${username}')">Reset Password</button>
+    `;
+    container.appendChild(div);
+  });
+
+  if (container.children.length === 0) {
+    container.innerHTML = '<p>No student accounts yet.</p>';
+  }
+}
+
+function showProgress() {
+  if (!currentUser || isAdmin) return showHome();
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('progress').classList.add('active');
+  renderProgress();
+}
+
+function resetStudentPassword(username) {
+  if (!isAdmin) return;
+  const newPass = prompt(`Reset password for ${username}.\nEnter new password (or leave blank for "reset123"):`, "reset123");
+  if (newPass === null) return;
+  const password = newPass.trim() || "reset123";
+  if (password.length < 4) {
+    alert("Password must be at least 4 characters.");
+    return;
+  }
+  const users = getUsers();
+  if (users[username]) {
+    users[username].password = password;
+    saveUsers(users);
+    alert(`Password for ${username} has been reset to: ${password}`);
+    renderAdminStudents();
+  }
+}
+
+function exportProgress() {
+  if (!isAdmin) return;
+  const users = getUsers();
+  const subjects = ['maths', 'english', 'vr', 'nvr'];
+  let csv = "Username,Subject,Best Score,Attempts\n";
+  
+  Object.keys(users).forEach(username => {
+    if (username === 'admin') return;
+    const key = `moonTuitionProgress_${username}`;
+    const progress = JSON.parse(localStorage.getItem(key) || '{}');
+    subjects.forEach(sub => {
+      const data = progress[sub] || { best: 0, attempts: 0 };
+      csv += `"${username}","${sub}",${data.best},${data.attempts}\n`;
+    });
+  });
+  
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `moon-tuition-progress-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+const SUBJECT_TIMERS = {
+  maths: { short: 5 * 60, full: 15 * 60 },
+  english: { short: 5 * 60, full: 12 * 60 },
+  vr: { short: 5 * 60, full: 10 * 60 },
+  nvr: { short: 5 * 60, full: 10 * 60 }
+};
+
+function startSubject(subject, mode = 'practice') {
+  if (!questions[subject] || questions[subject].length === 0) {
+    alert('No questions available for this subject. Please try again.');
+    return;
+  }
+  
+  currentSubject = subject;
+  isTimed = mode !== 'practice';
+  let qList = [...questions[subject]];
+  
+  if (mode === 'full' || mode === 'pack30') {
+    currentQuestions = qList.slice(0, Math.min(30, qList.length));
+  } else if (mode === 'pack8') {
+    currentQuestions = qList.slice(0, Math.min(20, qList.length));
+  } else if (mode === 'pack9') {
+    currentQuestions = qList.slice(0, Math.min(30, qList.length));
+  } else if (mode === 'pack11') {
+    currentQuestions = qList.slice(0, Math.min(30, qList.length));
+  } else {
+    currentQuestions = qList.slice(0, Math.min(5, qList.length));
+  }
+  
+  if (currentQuestions.length === 0) {
+    alert('Unable to load questions.');
+    return;
+  }
+  
+  currentIndex = 0;
+  score = 0;
+  answered = false;
+  
+  if (timerInterval) clearInterval(timerInterval);
+  
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('quiz').classList.add('active');
+  
+  const titles = { maths: 'Maths', english: 'English', vr: 'Verbal Reasoning', nvr: 'Non-Verbal Reasoning' };
+  let title = titles[subject] || subject;
+  if (mode === 'timed') title += ' (Timed)';
+  if (mode === 'full') title += ' (Full Mock)';
+  document.getElementById('quiz-title').textContent = title;
+  
+  if (isTimed) {
+    timeRemaining = 15 * 60; // 15 minutes for all packs
+    updateTimerDisplay();
+    timerInterval = setInterval(() => {
+      timeRemaining--;
+      updateTimerDisplay();
+      if (timeRemaining <= 0) {
+        clearInterval(timerInterval);
+        alert("Time's up!");
+        showResults();
+      }
+    }, 1000);
+  } else {
+    document.getElementById('timer-display').textContent = '';
+  }
+  
+  loadQuestion();
+}
+
+function updateTimerDisplay() {
+  const mins = Math.floor(timeRemaining / 60);
+  const secs = timeRemaining % 60;
+  document.getElementById('timer-display').textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+  if (timeRemaining < 60) {
+    document.getElementById('timer-display').style.color = '#dc2626';
+  }
+}
+
+function loadQuestion() {
+  if (!currentQuestions || currentQuestions.length === 0 || currentIndex >= currentQuestions.length) {
+    showResults();
+    return;
+  }
+  
+  const q = currentQuestions[currentIndex];
+  if (!q || !q.q || !q.options) {
+    console.error('Invalid question at index', currentIndex);
+    currentIndex++;
+    loadQuestion();
+    return;
+  }
+  
+  document.getElementById('question-text').textContent = q.q;
+  document.getElementById('question-counter').textContent = `${currentIndex + 1} / ${currentQuestions.length}`;
+  document.getElementById('progress-fill').style.width = `${((currentIndex) / currentQuestions.length) * 100}%`;
+  
+  const optionsDiv = document.getElementById('options');
+  optionsDiv.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option';
+    btn.textContent = opt;
+    btn.onclick = () => selectOption(i);
+    optionsDiv.appendChild(btn);
+  });
+  
+  document.getElementById('feedback').classList.add('hidden');
+  document.getElementById('next-btn').disabled = true;
+  answered = false;
+}
+
+function selectOption(index) {
+  if (answered) return;
+  answered = true;
+  
+  const q = currentQuestions[currentIndex];
+  const options = document.querySelectorAll('.option');
+  options.forEach((opt, i) => {
+    opt.classList.remove('selected');
+    if (i === index) opt.classList.add('selected');
+  });
+  
+  const feedback = document.getElementById('feedback');
+  feedback.classList.remove('hidden', 'correct', 'incorrect');
+  
+  if (index === q.answer) {
+    score++;
+    options[index].classList.add('correct');
+    feedback.classList.add('correct');
+    feedback.innerHTML = `<strong>Correct!</strong> ${q.explanation}`;
+  } else {
+    options[index].classList.add('incorrect');
+    options[q.answer].classList.add('correct');
+    feedback.classList.add('incorrect');
+    feedback.innerHTML = `<strong>Incorrect.</strong> ${q.explanation}`;
+    missedQuestions.push({
+      q: q.q,
+      correct: q.options[q.answer],
+      explanation: q.explanation
+    });
+  }
+  
+  document.getElementById('next-btn').disabled = false;
+  document.getElementById('progress-fill').style.width = `${((currentIndex + 1) / currentQuestions.length) * 100}%`;
+}
+
+function nextQuestion() {
+  currentIndex++;
+  loadQuestion();
+}
+
+function printProgress() {
+  if (!currentUser || isAdmin) return;
+  const key = getProgressKey();
+  const progress = JSON.parse(localStorage.getItem(key) || '{}');
+  const subjects = [
+    { id: 'maths', name: 'Maths' },
+    { id: 'english', name: 'English' },
+    { id: 'vr', name: 'Verbal Reasoning' },
+    { id: 'nvr', name: 'Non-Verbal Reasoning' }
+  ];
+  
+  let html = `
+    <html><head><title>Progress Report - ${currentUser}</title>
+    <style>
+      body { font-family: Inter, sans-serif; padding: 40px; }
+      h1 { color: #0f172a; }
+      table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+      th, td { border: 1px solid #e2e8f0; padding: 12px; text-align: left; }
+      th { background: #f8fafc; }
+      .footer { margin-top: 40px; color: #64748b; font-size: 0.9rem; }
+    </style></head><body>
+    <h1>Moon Tuition – ISEB Progress Report</h1>
+    <p><strong>Student:</strong> ${currentUser}</p>
+    <p><strong>Date:</strong> ${new Date().toLocaleDateString()}</p>
+    <table>
+      <tr><th>Subject</th><th>Best Score</th><th>Attempts</th></tr>`;
+  
+  subjects.forEach(s => {
+    const data = progress[s.id] || { best: 0, attempts: 0 };
+    html += `<tr><td>${s.name}</td><td>${data.best}</td><td>${data.attempts}</td></tr>`;
+  });
+  
+  html += `</table>
+    <div class="footer">Generated by Moon Tuition ISEB Practice Platform</div>
+    </body></html>`;
+  
+  const win = window.open('', '_blank');
+  win.document.write(html);
+  win.document.close();
+  win.focus();
+  setTimeout(() => win.print(), 500);
+}
+
+function showResults() {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+  
+  if (packMode) {
+    // Store this subject's score and continue
+    packScores[currentSubject] = { score: score, total: currentQuestions.length };
+    nextPackSubject();
+    return;
+  }
+  
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('results').classList.add('active');
+  
+  document.getElementById('score-value').textContent = score;
+  document.querySelector('.score-label').textContent = `/ ${currentQuestions.length}`;
+  const pct = Math.round((score / currentQuestions.length) * 100);
+  let msg = "Keep practising!";
+  if (pct >= 80) msg = "Excellent work!";
+  else if (pct >= 60) msg = "Good effort — review the explanations.";
+  if (isTimed) msg += " (Timed)";
+  document.getElementById('score-message').textContent = msg;
+  
+  // Always offer review after a subject
+  let actions = '';
+  if (missedQuestions.length > 0) {
+    actions += `<button class="btn-primary" onclick="showReview()">Review Answers</button> `;
+  }
+  actions += `<button class="btn-secondary" onclick="showHome()">Back to Home</button>`;
+  document.querySelector('.results-actions').innerHTML = actions;
+  
+  saveProgress(currentSubject, score, currentQuestions.length);
+}
+
+function restartQuiz() {
+  startSubject(currentSubject);
+}
+
+function getProgressKey() {
+  return `moonTuitionProgress_${currentUser || 'guest'}`;
+}
+
+function saveProgress(subject, score, total) {
+  const key = getProgressKey();
+  let progress = JSON.parse(localStorage.getItem(key) || '{}');
+  if (!progress[subject]) progress[subject] = { attempts: 0, best: 0, totalScore: 0 };
+  progress[subject].attempts++;
+  progress[subject].totalScore += score;
+  if (score > progress[subject].best) progress[subject].best = score;
+  localStorage.setItem(key, JSON.stringify(progress));
+}
+
+function renderProgress() {
+  const key = getProgressKey();
+  const progress = JSON.parse(localStorage.getItem(key) || '{}');
+  const container = document.getElementById('progress-stats');
+  container.innerHTML = '';
+  
+  const subjects = [
+    { id: 'maths', name: 'Maths' },
+    { id: 'english', name: 'English' },
+    { id: 'vr', name: 'Verbal Reasoning' },
+    { id: 'nvr', name: 'Non-Verbal Reasoning' }
+  ];
+  
+  subjects.forEach(s => {
+    const data = progress[s.id] || { attempts: 0, best: 0 };
+    const card = document.createElement('div');
+    card.className = 'stat-card';
+    card.innerHTML = `
+      <h3>${s.name}</h3>
+      <p>Attempts: ${data.attempts}</p>
+      <p>Best score: ${data.best}/5</p>
+    `;
+    container.appendChild(card);
+  });
+  
+  if (Object.keys(progress).length === 0) {
+    container.innerHTML = '<p>No practice completed yet. Start a subject quiz!</p>';
+  }
+}
+
+// Initialise
+initAuth();
+  </script>
+</body>
+</html>
